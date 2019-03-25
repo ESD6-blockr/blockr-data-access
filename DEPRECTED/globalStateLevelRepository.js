@@ -1,6 +1,9 @@
+/**
+ * DEPRECTAED
+ */
 const log = require('debug')('bluckur-database');
 const error = require('debug')('bluckur-database:error');
-const TransactionConverter = require('./../../util/transactionConverter');
+const TransactionConverter = require('../../util/transactionConverter');
 
 class GlobalStateLevelRepository {
   constructor(globalStateLevel) {

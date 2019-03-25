@@ -1,8 +1,9 @@
 {
-  "name": "blockr-data-access",
+  "name": "@blockr/blockr-data-access",
   "version": "1.0.0",
   "description": "Data access layer for Blockr",
-  "main": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "build-watch": "tsc -w -p tsconfig.json",
@@ -16,8 +17,10 @@
   "author": "Blockr",
   "license": "MIT",
   "dependencies": {
-    "bluckur-models": "git+https://github.com/ESD6-blockr/blockr-models.git",
-    "mongodb": "^3.1.13"
+    "@blockr/blockr-models": "^1.0.0-2",
+    "inversify": "^5.0.1",
+    "mongodb": "^3.1.13",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "tslint": "^5.14.0",

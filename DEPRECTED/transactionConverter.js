@@ -1,3 +1,6 @@
+/**
+ * DEPRECTAED
+ */
 const Models = require('bluckur-models');
 
 function addPendingStateToStates(states, publicKey, type, amount, isRecipient) {

@@ -1,13 +1,17 @@
 {
     "compilerOptions": {
-        "outDir": "./dist/",        // path to output directory
-        "sourceMap": true,          // allow sourcemap support
+        "experimentalDecorators": true,
+        "outDir": "./dist/",
+        "sourceMap": true,
         "strictNullChecks": true,
-        "noImplicitReturns": true,   // enable strict null checks as a best practice
-        "target": "es5",            // specify ECMAScript target version
-        "allowJs": true             // allow a partial TypeScript and JavaScript codebase
+        "declaration": true,
+        "noImplicitReturns": true,
+        "target": "es5",
+        "lib": [
+            "es2015"
+        ]
     },
     "include": [
-        "src/**/*"
+        "src/**/*", "globalStateLevelRepository.js", "globalStateMongoRepository.js", "transactionConverter.js", "blockchainLevelRepository.js", "blockchainMongoRepository.js", "mongoDB.js", "levelDB.js"
     ]
 }

@@ -1,8 +1,11 @@
+/**
+ * DEPRECATED
+ */
 const level = require('level');
 const log = require('debug')('bluckur-database');
-const defaultConfig = require('./defaultConfig');
-const BlockchainLevelRepository = require('./repositories/blockchainLevelRepository');
-const GlobalStateLevelRepository = require('./repositories/globalStateLevelRepository');
+const defaultConfig = require('../levelDB/defaultConfig');
+const BlockchainLevelRepository = require('../repositories/concrete/blockchainLevelRepository');
+const GlobalStateLevelRepository = require('../repositories/concrete/globalStateLevelRepository');
 
 class LevelDB {
   constructor(customConfig) {
