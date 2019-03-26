@@ -18,8 +18,9 @@
   "license": "MIT",
   "dependencies": {
     "@blockr/blockr-models": "^1.0.0-2",
+    "@types/mongodb": "^3.1.22",
     "inversify": "^5.0.1",
-    "mongodb": "^3.1.13",
+    "mongodb": "^3.2.2",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 import { State, Transaction } from "@blockr/blockr-models";
 import { inject, injectable } from "inversify";
-import { IDatabase, LevelDB } from "../../Databases";
+import { IClient, LevelDB } from "../../clients";
 import { IStateRepository } from "../interfaces/stateRepository";
 
 /**
@@ -8,10 +8,10 @@ import { IStateRepository } from "../interfaces/stateRepository";
  */
 @injectable()
 export class LevelStateRepository implements IStateRepository {
-    private database: IDatabase;
+    private client: IClient<void>;
 
-    constructor(@inject(LevelDB) database: IDatabase) {
-        this.database = database;
+    constructor(@inject(LevelDB) client: IClient<void>) {
+        this.client = client;
     }
     
     public async getStatesAsync(): Promise<State[]> {
@@ -26,11 +26,11 @@ export class LevelStateRepository implements IStateRepository {
         throw new Error("Method not implemented.");
     }
 
-    public async updateStateAsync(transactions: Transaction[]): Promise<void> {
+    public async updateStatesAsync(transactions: Transaction[]): Promise<void> {
         throw new Error("Method not implemented.");
     }
 
-    public async clearStateAsync(): Promise<void> {
+    public async clearStatesAsync(): Promise<void> {
         throw new Error("Method not implemented.");
     }
 }

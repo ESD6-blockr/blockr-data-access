@@ -1,6 +1,7 @@
 import { Block } from "@blockr/blockr-models";
 import { inject, injectable } from "inversify";
-import { IDatabase, MongoDB } from "../../Databases";
+import * as Mongo from "mongodb";
+import { IClient, MongoDB } from "../../clients";
 import { IBlockchainRepository } from "../interfaces/blockchainRepository";
 
 /**
@@ -8,17 +9,25 @@ import { IBlockchainRepository } from "../interfaces/blockchainRepository";
  */
 @injectable()
 export class MongoBlockchainRepository implements IBlockchainRepository {
-    private database: IDatabase;
+    private client: IClient<Mongo.Db>;
 
-    constructor(@inject(MongoDB) database: IDatabase) {
-        this.database = database;
+    constructor(@inject(MongoDB) client: IClient<Mongo.Db>) {
+        this.client = client;
     }
 
     public async getBlockchainAsync(): Promise<Block[]> {
-        throw new Error("Method not implemented.");
+        try {
+            const database = await this.client.connectAsync();
+            const collection = database.collection("blocks");
+            return await collection.find().toArray();
+        } catch (error) {
+            throw error;
+        } finally {
+            await this.client.disconnectAsync();
+        }
     }
-    
-    public async getBlockAsync(): Promise<Block> {
+
+    public async getBlockAsync(blockNumber: number): Promise<Block> {
         throw new Error("Method not implemented.");
     }
 
@@ -33,7 +42,7 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
     public async deleteBlocksASync(blockNumbers: number[]): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    
+
     public async deleteBlockAsync(blockNumber: number): Promise<void> {
         throw new Error("Method not implemented.");
     }

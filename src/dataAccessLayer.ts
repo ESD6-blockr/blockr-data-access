@@ -1,6 +1,7 @@
-import { Block, State, Transaction } from "@blockr/blockr-models";
 import "reflect-metadata";
-import { DataSource } from "./Databases";
+
+import { Block, State, Transaction } from "@blockr/blockr-models";
+import { DataSource } from "./clients";
 import DIContainer from "./injection/container";
 import { LevelBlockchainRepository, LevelStateRepository} from "./repositories";
 import { MongoBlockchainRepository, MongoStateRepository } from "./repositories";
@@ -25,6 +26,10 @@ export class DataAccessLayer {
         return await this.blockchainRepository.getBlockchainAsync();
     }
 
+    public async getBlockAsync(blockNumber: number): Promise<Block> {
+        return await this.blockchainRepository.getBlockAsync(blockNumber);
+    }
+
     public async setBlocksAsync(blocks: Block[]): Promise<void> {
         await this.blockchainRepository.setBlocksAsync(blocks);
     }
@@ -45,11 +50,11 @@ export class DataAccessLayer {
         await this.stateRepository.setStatesAsync(states);
     }
 
-    public async updateStateAsync(transactions: Transaction[]): Promise<void> {
-        await this.stateRepository.updateStateAsync(transactions);
+    public async updateStatesAsync(transactions: Transaction[]): Promise<void> {
+        await this.stateRepository.updateStatesAsync(transactions);
     }
 
-    public async clearStateAsync(): Promise<void> {
-        throw new Error("Method not implemented.");
+    public async clearStatesAsync(): Promise<void> {
+        await this.stateRepository.clearStatesAsync();
     }
 }

@@ -1,6 +1,6 @@
 import { Block } from "@blockr/blockr-models";
 import { inject, injectable } from "inversify";
-import { IDatabase, LevelDB } from "../../Databases";
+import { IClient, LevelDB } from "../../clients";
 import { IBlockchainRepository } from "../interfaces/blockchainRepository";
 
 /**
@@ -8,17 +8,17 @@ import { IBlockchainRepository } from "../interfaces/blockchainRepository";
  */
 @injectable()
 export class LevelBlockchainRepository implements IBlockchainRepository {
-    private database: IDatabase;
+    private client: IClient<void>;
 
-    constructor(@inject(LevelDB) database: IDatabase) {
-        this.database = database;
+    constructor(@inject(LevelDB) client: IClient<void>) {
+        this.client = client;
     }
 
     public async getBlockchainAsync(): Promise<Block[]> {
         throw new Error("Method not implemented.");
     }
 
-    public async getBlockAsync(): Promise<Block> {
+    public async getBlockAsync(blockNumber: number): Promise<Block> {
         throw new Error("Method not implemented.");
     }
 
