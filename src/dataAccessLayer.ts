@@ -3,7 +3,7 @@ import "reflect-metadata";
 import { Block, State, Transaction } from "@blockr/blockr-models";
 import { DataSource } from "./clients";
 import DIContainer from "./injection/container";
-import { LevelBlockchainRepository, LevelStateRepository} from "./repositories";
+import { LevelBlockchainRepository, LevelStateRepository } from "./repositories";
 import { MongoBlockchainRepository, MongoStateRepository } from "./repositories";
 import { IBlockchainRepository, IStateRepository } from "./repositories";
 
@@ -12,14 +12,18 @@ export class DataAccessLayer {
     private stateRepository: IStateRepository;
 
     constructor(dataSource: DataSource) {
-        if (dataSource === DataSource.LEVEL_DB) {
-            this.blockchainRepository = DIContainer.resolve<IBlockchainRepository>(LevelBlockchainRepository);
-            this.stateRepository = DIContainer.resolve<IStateRepository>(LevelStateRepository);
-            return;
+        switch (dataSource) {
+            case DataSource.LEVEL_DB:
+                this.blockchainRepository = DIContainer.resolve<IBlockchainRepository>(LevelBlockchainRepository);
+                this.stateRepository = DIContainer.resolve<IStateRepository>(LevelStateRepository);
+                break;
+            case DataSource.MONGO_DB:
+                this.blockchainRepository = DIContainer.resolve<IBlockchainRepository>(MongoBlockchainRepository);
+                this.stateRepository = DIContainer.resolve<IStateRepository>(MongoStateRepository);
+                break;
+            default:
+                throw new Error("Unrecognised dataSource");
         }
-
-        this.blockchainRepository = DIContainer.resolve<IBlockchainRepository>(MongoBlockchainRepository);
-        this.stateRepository = DIContainer.resolve<IStateRepository>(MongoStateRepository);
     }
 
     public async getBlockchainAsync(): Promise<Block[]> {
