@@ -1,3 +1,6 @@
+/**
+ * Deprecated
+ */
 const log = require('debug')('bluckur-database');
 const error = require('debug')('bluckur-database:error');
 

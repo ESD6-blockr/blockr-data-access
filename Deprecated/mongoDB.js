@@ -1,7 +1,10 @@
+/**
+ * Deprecated
+ */
 const mongoose = require('mongoose');
 const log = require('debug')('bluckur-database');
 const Models = require('bluckur-models');
-const defaultConfig = require('./defaultConfig');
+const defaultConfig = require('../mongoDB/defaultConfig');
 const BlockchainMongoRepository = require('./repositories/blockchainMongoRepository');
 const GlobalStateMongoRepository = require('./repositories/globalStateMongoRepository');
 
