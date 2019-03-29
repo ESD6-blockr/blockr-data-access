@@ -9,7 +9,7 @@ import { loadApplicationSettings } from "../utils/configLoader";
  */
 
 /**
- * Dependancy container
+ * Dependency container
  */
 const DIContainer = new Container();
 /**
