@@ -30,7 +30,7 @@ export class LevelBlockchainRepository implements IBlockchainRepository {
         throw new Error("Method not implemented.");
     }
 
-    public async deleteBlocksASync(blockNumbers: number[]): Promise<void> {
+    public async deleteBlocksAsync(blockNumbers: number[]): Promise<void> {
         throw new Error("Method not implemented.");
     }
 

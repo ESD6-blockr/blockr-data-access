@@ -4,6 +4,7 @@
 
 ### Custom ###
 .npmrc
+src/appsettings.plain.json
 
 ### TypeScript ###
 dist/

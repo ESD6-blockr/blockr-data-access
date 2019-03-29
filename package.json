@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "build-watch": "tsc -w -p tsconfig.json",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "lint": "tslint --project tsconfig.json"
   },
   "repository": {
@@ -18,16 +18,37 @@
   "license": "MIT",
   "dependencies": {
     "@blockr/blockr-models": "^1.0.0-2",
-    "@types/mongodb": "^3.1.22",
-    "@types/winston": "^2.4.4",
     "inversify": "^5.0.1",
     "mongodb": "^3.2.2",
     "reflect-metadata": "^0.1.13",
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.11",
+    "@types/mongodb": "^3.1.22",
+    "@types/winston": "^2.4.4",
+    "jest": "^24.5.0",
+    "ts-jest": "^24.0.0",
     "tslint": "^5.14.0",
     "tsutils": "^3.9.1",
     "typescript": "^3.3.4000"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "tsconfig.json"
+      }
+    },
+    "testMatch": [
+      "**/__tests__/*.+(ts|tsx|js)"
+    ]
   }
 }

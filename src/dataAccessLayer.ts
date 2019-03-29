@@ -35,7 +35,7 @@ export class DataAccessLayer {
     }
 
     public async deleteBlocksAsync(blockNumbers: number[]): Promise<void> {
-        await this.blockchainRepository.deleteBlocksASync(blockNumbers);
+        await this.blockchainRepository.deleteBlocksAsync(blockNumbers);
     }
 
     public async getStatesAsync(): Promise<State[]> {
@@ -52,6 +52,10 @@ export class DataAccessLayer {
 
     public async updateStatesAsync(transactions: Transaction[]): Promise<void> {
         await this.stateRepository.updateStatesAsync(transactions);
+    }
+
+    public async updateStateAsync(publicKey: string, state: State) {
+        await this.stateRepository.updateStateAsync(publicKey, state);
     }
 
     public async clearStatesAsync(): Promise<void> {

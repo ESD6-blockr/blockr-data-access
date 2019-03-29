@@ -33,4 +33,8 @@ export class LevelStateRepository implements IStateRepository {
     public async clearStatesAsync(): Promise<void> {
         throw new Error("Method not implemented.");
     }
+
+    public async updateStateAsync(publicKey: string, state: State): Promise<void> {
+        throw new Error("implement me");
+    }
 }
