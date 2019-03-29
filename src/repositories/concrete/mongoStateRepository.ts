@@ -96,7 +96,7 @@ export class MongoStateRepository implements IStateRepository {
 
     public async clearStatesAsync(): Promise<void> {
         try {
-            Logger.info("Clear all sates");
+            Logger.info("Clear all states");
 
             const database = await this.client.connectAsync();
             const collection = database.collection(this.states);
@@ -113,7 +113,7 @@ export class MongoStateRepository implements IStateRepository {
 
     public async updateStateAsync(publicKey: string, state: State): Promise<void> {
         try {
-            Logger.info("Clear all sates");
+            Logger.info("Update single state");
 
             const database = await this.client.connectAsync();
             const collection = database.collection(this.states);

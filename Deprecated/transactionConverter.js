@@ -1,5 +1,5 @@
 /**
- * DEPRECTAED
+ * Deprecated
  */
 const Models = require('bluckur-models');
 

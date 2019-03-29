@@ -1,5 +1,5 @@
 /**
- * DEPRECTAED
+ * Deprecated
  */
 const mongoose = require('mongoose');
 const log = require('debug')('bluckur-database');

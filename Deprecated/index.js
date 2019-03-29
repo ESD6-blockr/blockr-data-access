@@ -1,3 +1,6 @@
+/**
+ * Deprecated
+ */
 const MongoDB = require('./lib/mongoDB/mongoDB');
 const LevelDB = require('./lib/levelDB/levelDB');
 

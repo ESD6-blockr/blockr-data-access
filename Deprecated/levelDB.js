@@ -1,5 +1,5 @@
 /**
- * DEPRECATED
+ * Deprecated
  */
 const level = require('level');
 const log = require('debug')('bluckur-database');
