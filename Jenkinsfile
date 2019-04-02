@@ -3,7 +3,7 @@
 
 Map sonarSettings = [
     key: "blockr-data-access",
-    source: "src/"
+    source: "src/",
     host: "https://sonarqube.naebers.me"
 ]
 
