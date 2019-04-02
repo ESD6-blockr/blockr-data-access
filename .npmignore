@@ -1,0 +1,5 @@
+.vscode/
+src/
+Jenkinsfile
+tsconfig.json
+tslint.json
