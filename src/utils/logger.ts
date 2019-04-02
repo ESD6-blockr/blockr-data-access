@@ -1,6 +1,6 @@
 import * as Winston from "winston";
 
-const path = "log/";
+const path = "logs/";
 
 const alignedWithColorsAndTime = Winston.format.combine(
     Winston.format.colorize(),
