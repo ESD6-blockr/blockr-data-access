@@ -52,6 +52,8 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
                 });
             });
         } catch (error) {
+            Logger.error(error);
+
             throw error;
         } finally {
             this.client.disconnectAsync();
@@ -67,6 +69,8 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
 
             await collection.insertMany(blocks);
         } catch (error) {
+            Logger.error(error);
+
             throw error;
         } finally {
             this.client.disconnectAsync();
@@ -82,6 +86,8 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
 
             await collection.insertOne(block);
         } catch (error) {
+            Logger.error(error);
+
             throw error;
         } finally {
             this.client.disconnectAsync();
@@ -97,6 +103,8 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
 
             await collection.deleteMany({ "blockHeader.blockNumber": blockNumbers });
         } catch (error) {
+            Logger.error(error);
+
             throw error;
         } finally {
             this.client.disconnectAsync();
@@ -112,6 +120,8 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
 
             await collection.deleteOne({ "blockHeader.blockNumber": blockNumber });
         } catch (error) {
+            Logger.error(error);
+            
             throw error;
         } finally {
             this.client.disconnectAsync();
