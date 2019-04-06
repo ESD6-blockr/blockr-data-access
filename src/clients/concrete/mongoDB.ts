@@ -17,7 +17,7 @@ export class MongoDB implements IClient<Mongo.Db> {
         Logger.info("Opening MongoDB connection");
 
         this.client = await Mongo.connect(this.configuration.connectionString);
-        return await this.client.db(this.configuration.database);
+        return this.client.db(this.configuration.database);
     }
 
     public async disconnectAsync(): Promise<void> {
