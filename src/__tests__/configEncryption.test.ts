@@ -17,7 +17,7 @@ test("Encrypt config", () => {
 
 
 test("Decrypt config", () => {
-    const encryted = FS.readFileSync(Path.resolve(__dirname, "../appsettings.enc.json"), "UTF-8");
+    const encryted = FS.readFileSync(Path.resolve(__dirname, "../appsettings.json"), "UTF-8");
     const decrypted = decrypt(encryted, key, iv);
-    FS.writeFileSync(Path.resolve(__dirname, "../appsettings.plain.json"), decrypted);
+    FS.writeFileSync(Path.resolve(__dirname, "../appsettings.plain.json"), JSON.stringify(decrypted));
 });

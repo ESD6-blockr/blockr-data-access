@@ -1,17 +1,19 @@
 import "reflect-metadata";
 
 import { Block, State, Transaction } from "@blockr/blockr-models";
+import { inject, injectable } from "inversify";
 import { DataSource } from "./clients";
 import DIContainer from "./injection/container";
 import { LevelBlockchainRepository, LevelStateRepository } from "./repositories";
 import { MongoBlockchainRepository, MongoStateRepository } from "./repositories";
 import { IBlockchainRepository, IStateRepository } from "./repositories";
 
+@injectable()
 export class DataAccessLayer {
     private blockchainRepository: IBlockchainRepository;
     private stateRepository: IStateRepository;
 
-    constructor(dataSource: DataSource) {
+    constructor(@inject("DataSource") dataSource: DataSource) {
         switch (dataSource) {
             case DataSource.LEVEL_DB:
                 this.blockchainRepository = DIContainer.resolve<IBlockchainRepository>(LevelBlockchainRepository);
