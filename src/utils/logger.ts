@@ -1,6 +1,8 @@
 import * as Winston from "winston";
 
 const path = "logs/";
+const TIMESTAMP_T_INDEX: number = 19;
+const JSON_INDEX: number = 2;
 
 const alignedWithColorsAndTime = Winston.format.combine(
     Winston.format.colorize(),
@@ -14,8 +16,8 @@ const alignedWithColorsAndTime = Winston.format.combine(
             ...args
         } = info;
 
-        const ts = timestamp.slice(0, 19).replace("T", " ");
-        return `${ts} [${level}]: ${message} ${Object.keys(args).length ? JSON.stringify(args, null, 2) : ""}`;
+        const ts = timestamp.slice(0, TIMESTAMP_T_INDEX).replace("T", " ");
+        return `${ts} [${level}]: ${message} ${Object.keys(args).length ? JSON.stringify(args, null, JSON_INDEX) : ""}`;
     }),
 );
 
