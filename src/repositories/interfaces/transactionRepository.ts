@@ -2,9 +2,9 @@ import { Transaction } from "@blockr/blockr-models";
 
 export interface ITransactionRepository {
     /**
-    * Get all transactions
-    * @returns {Promise<Transaction[]>} array of transactions
-    */
+     * Get all transactions
+     * @returns {Promise<Transaction[]>} array of transactions
+     */
     getTransactionsAsync(): Promise<Transaction[]>;
     /**
      * Get all transactions by amount
@@ -54,7 +54,7 @@ export interface ITransactionRepository {
      * Add multiple transactions to the blockchain
      * @param transaction new transaction
      */
-    createTransactionsAsync(transactions: Transaction[]): Promise<void>
+    createTransactionsAsync(transactions: Transaction[]): Promise<void>;
     /**
      * Add a single transaction to the blockchain
      * @param transaction new transaction

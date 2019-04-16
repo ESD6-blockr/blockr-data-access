@@ -42,7 +42,8 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
-            return await collection.find({ "blockHeader.timestamp": { $gt: beginTimestamp, $lt: endTimestamp } }).toArray();
+            return await collection.find({ "blockHeader.timestamp": { $gt: beginTimestamp, $lt: endTimestamp } })
+                .toArray();
         } catch (error) {
             Logger.error(error);
 

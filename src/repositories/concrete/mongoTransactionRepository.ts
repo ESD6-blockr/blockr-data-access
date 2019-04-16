@@ -76,7 +76,8 @@ export class MongoTransactionRepository implements ITransactionRepository {
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
-            return await collection.find({ "transaction.timestamp": { $gt: beginTimestamp, $lt: endTimestamp } }).toArray();
+            return await collection.find({ "transaction.timestamp": { $gt: beginTimestamp, $lt: endTimestamp } })
+                .toArray();
         } catch (error) {
             Logger.error(error);
 
@@ -144,7 +145,8 @@ export class MongoTransactionRepository implements ITransactionRepository {
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
-            return await collection.find({ "transaction.sender": sender, "transaction.recipient": recipient }).toArray();
+            return await collection.find({ "transaction.sender": sender, "transaction.recipient": recipient })
+                .toArray();
         } catch (error) {
             Logger.error(error);
 
