@@ -127,8 +127,8 @@ export class DataAccessLayer {
         return await this.transactionRepository.getTransactionsBySignatureAsync(signature);
     }
 
-    public async getTransactionsByRouteAsync(sender: string, recipient: string): Promise<Transaction[]> {
-        return await this.transactionRepository.getTransactionsByRouteAsync(sender, recipient);
+    public async getTransactionsBySenderRecipientAsync(sender: string, recipient: string): Promise<Transaction[]> {
+        return await this.transactionRepository.getTransactionsBySenderRecipientAsync(sender, recipient);
     }
 
     public async createTransactionsAsync(transactions: Transaction[]): Promise<void> {

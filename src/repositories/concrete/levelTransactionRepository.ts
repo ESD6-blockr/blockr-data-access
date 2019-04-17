@@ -42,7 +42,7 @@ export class LevelTransactionRepository implements ITransactionRepository {
         throw new Error("Method not implemented.");
     }
 
-    public async getTransactionsByRouteAsync(sender: string, recipient: string): Promise<Transaction[]> {
+    public async getTransactionsBySenderRecipientAsync(sender: string, recipient: string): Promise<Transaction[]> {
         throw new Error("Method not implemented.");
     }
 

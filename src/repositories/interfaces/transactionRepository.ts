@@ -44,12 +44,12 @@ export interface ITransactionRepository {
      */
     getTransactionsBySignatureAsync(signature: string): Promise<Transaction[]>;
     /**
-     * Get all transactions by route
+     * Get all transactions by sender and recipient
      * @param sender transaction sender
      * @param recipient transaction recipient
      * @returns {Promise<Transaction[]>} array of transactions
      */
-    getTransactionsByRouteAsync(sender: string, recipient: string): Promise<Transaction[]>;
+    getTransactionsBySenderRecipientAsync(sender: string, recipient: string): Promise<Transaction[]>;
     /**
      * Add multiple transactions to the blockchain
      * @param transaction new transaction

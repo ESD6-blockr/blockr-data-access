@@ -144,9 +144,9 @@ export class MongoTransactionRepository implements ITransactionRepository {
         }
     }
 
-    public async getTransactionsByRouteAsync(sender: string, recipient: string): Promise<Transaction[]> {
+    public async getTransactionsBySenderRecipientAsync(sender: string, recipient: string): Promise<Transaction[]> {
         try {
-            Logger.info(`Get transactions by route ${sender} -> ${recipient}`);
+            Logger.info(`Get transactions by sender and recipient ${sender} -> ${recipient}`);
 
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
