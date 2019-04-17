@@ -1,6 +1,6 @@
 {
   "name": "@blockr/blockr-data-access",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Data access layer for Blockr",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,7 +17,7 @@
   "author": "Blockr",
   "license": "MIT",
   "dependencies": {
-    "@blockr/blockr-models": "^1.0.0-6",
+    "@blockr/blockr-models": "^1.3.0-11",
     "inversify": "^5.0.1",
     "mongodb": "^3.2.2",
     "reflect-metadata": "^0.1.13",

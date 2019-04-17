@@ -3,8 +3,7 @@
 
 Map sonarSettings = [
     key: "blockr-data-access",
-    source: "src/",
-    host: "https://sonarqube.naebers.me"
+    source: "src/"
 ]
 
 tsBuildAndPublish(sonarSettings)
