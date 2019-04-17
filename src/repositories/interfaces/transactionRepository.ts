@@ -13,12 +13,6 @@ export interface ITransactionRepository {
      */
     getTransactionsByAmountAsync(amount: number): Promise<Transaction[]>;
     /**
-     * Get all transactions by date
-     * @param date transaction date
-     * @returns {Promise<Transaction[]>} array of transactions
-     */
-    getTransactionsByDateAsync(date: Date): Promise<Transaction[]>;
-    /**
      * Get all transactions in a period of dates
      * @param beginDate starting date
      * @param endDate end date
@@ -26,30 +20,24 @@ export interface ITransactionRepository {
      */
     getTransactionsByDatePeriodAsync(beginDate: Date, endDate: Date): Promise<Transaction[]>;
     /**
-     * Get all transactions by recipient
-     * @param recipient transaction recipient
+     * Get all transactions by recipient key
+     * @param recipientKey transaction recipient key
      * @returns {Promise<Transaction[]>} array of transactions
      */
-    getTransactionsByRecipientAsync(recipient: string): Promise<Transaction[]>;
+    getTransactionsByRecipientKeyAsync(recipientKey: string): Promise<Transaction[]>;
     /**
-     * Get all transactions by sender
-     * @param sender transaction sender
+     * Get all transactions by sender key
+     * @param senderKey transaction sender key
      * @returns {Promise<Transaction[]>} array of transactions
      */
-    getTransactionsBySenderAsync(sender: string): Promise<Transaction[]>;
+    getTransactionsBySenderKeyAsync(senderKey: string): Promise<Transaction[]>;
     /**
-     * Get all transactions by signature
-     * @param signature transaction signature
+     * Get all transactions by sender- to recipientKey
+     * @param senderKey transaction sender key
+     * @param recipientKey transaction recipient key
      * @returns {Promise<Transaction[]>} array of transactions
      */
-    getTransactionsBySignatureAsync(signature: string): Promise<Transaction[]>;
-    /**
-     * Get all transactions by sender and recipient
-     * @param sender transaction sender
-     * @param recipient transaction recipient
-     * @returns {Promise<Transaction[]>} array of transactions
-     */
-    getTransactionsBySenderRecipientAsync(sender: string, recipient: string): Promise<Transaction[]>;
+    getTransactionsBySenderKeyToRecipientKeyAsync(senderKey: string, recipientKey: string): Promise<Transaction[]>;
     /**
      * Add multiple transactions to the blockchain
      * @param transaction new transaction

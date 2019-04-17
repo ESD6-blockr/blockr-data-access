@@ -22,27 +22,20 @@ export class LevelTransactionRepository implements ITransactionRepository {
         throw new Error("Method not implemented.");
     }
 
-    public async getTransactionsByDateAsync(date: Date): Promise<Transaction[]> {
-        throw new Error("Method not implemented.");
-    }
-
     public async getTransactionsByDatePeriodAsync(beginDate: Date, endDate: Date): Promise<Transaction[]> {
         throw new Error("Method not implemented.");
     }
 
-    public async getTransactionsByRecipientAsync(recipient: string): Promise<Transaction[]> {
+    public async getTransactionsByRecipientKeyAsync(recipientKey: string): Promise<Transaction[]> {
         throw new Error("Method not implemented.");
     }
 
-    public async getTransactionsBySenderAsync(sender: string): Promise<Transaction[]> {
+    public async getTransactionsBySenderKeyAsync(senderKey: string): Promise<Transaction[]> {
         throw new Error("Method not implemented.");
     }
 
-    public async getTransactionsBySignatureAsync(signature: string): Promise<Transaction[]> {
-        throw new Error("Method not implemented.");
-    }
-
-    public async getTransactionsBySenderRecipientAsync(sender: string, recipient: string): Promise<Transaction[]> {
+    public async getTransactionsBySenderKeyToRecipientKeyAsync(senderKey: string, recipientKey: string):
+        Promise<Transaction[]> {
         throw new Error("Method not implemented.");
     }
 

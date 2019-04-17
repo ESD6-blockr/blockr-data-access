@@ -14,12 +14,6 @@ export interface IBlockchainRepository {
      */
     getBlocksByDatePeriodAsync(beginDate: Date, endDate: Date): Promise<Block[]>;
     /**
-     * Get the blocks in the blockchain by date
-     * @param date date of the block
-     * @returns {Promise<block[]>} array of blocks
-     */
-    getBlocksByDateAsync(date: Date): Promise<Block[]>;
-    /**
      * Get the blocks in the blockchain by hash
      * @param blockHash hash of the block
      * @returns {Promise<block>} array of blocks
@@ -38,12 +32,6 @@ export interface IBlockchainRepository {
      */
     getPreviousBlockAsync(parentHash: string): Promise<Block>;
     /**
-     * Get the next block
-     * @param blockHash hash of block
-     * @returns {Promise<Block>} single block
-     */
-    getNextBlockAsync(blockHash: string): Promise<Block>;
-    /**
      * Create multiple blocks
      * @param blocks array of blocks
      */
@@ -53,14 +41,4 @@ export interface IBlockchainRepository {
      * @param block block
      */
     createBlockAsync(block: Block): Promise<void>;
-    /**
-     * Delete multiple blocks by number
-     * @param blockNumbers array of block numbers
-     */
-    deleteBlocksByNumbersAsync(blockNumbers: number[]): Promise<void>;
-    /**
-     * Delete single block by number
-     * @param blockNumber block number
-     */
-    deleteBlockByNumberAsync(blockNumber: number): Promise<void>;
 }

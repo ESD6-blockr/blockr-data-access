@@ -52,23 +52,6 @@ export class MongoTransactionRepository implements ITransactionRepository {
         }
     }
 
-    public async getTransactionsByDateAsync(date: Date): Promise<Transaction[]> {
-        try {
-            Logger.info(`Get transactions by date ${date}`);
-
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            return await collection.find({ "transaction.timestamp": date.getTime() }).toArray();
-        } catch (error) {
-            Logger.error(error);
-
-            throw error;
-        } finally {
-            await this.client.disconnectAsync();
-        }
-    }
-
     public async getTransactionsByDatePeriodAsync(beginDate: Date, endDate: Date): Promise<Transaction[]> {
         try {
             Logger.info(`Get transactions within date period ${beginDate} - ${endDate}`);
@@ -76,83 +59,62 @@ export class MongoTransactionRepository implements ITransactionRepository {
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
+            return await collection.find({ "transaction.date": { $gt: beginDate, $lt: endDate } }).toArray();
+        } catch (error) {
+            Logger.error(error);
+
+            throw error;
+        } finally {
+            await this.client.disconnectAsync();
+        }
+    }
+
+    public async getTransactionsByRecipientKeyAsync(recipientKey: string): Promise<Transaction[]> {
+        try {
+            Logger.info(`Get transactions by recipientKey ${recipientKey}`);
+
+            const database = await this.client.connectAsync();
+            const collection = database.collection(this.tableName);
+
+            return await collection.find({ "transaction.recipientKey": recipientKey }).toArray();
+        } catch (error) {
+            Logger.error(error);
+
+            throw error;
+        } finally {
+            await this.client.disconnectAsync();
+        }
+    }
+
+    public async getTransactionsBySenderKeyAsync(senderKey: string): Promise<Transaction[]> {
+        try {
+            Logger.info(`Get transactions by senderKey ${senderKey}`);
+
+            const database = await this.client.connectAsync();
+            const collection = database.collection(this.tableName);
+
+            return await collection.find({ "transaction.senderKey": senderKey }).toArray();
+        } catch (error) {
+            Logger.error(error);
+
+            throw error;
+        } finally {
+            await this.client.disconnectAsync();
+        }
+    }
+
+    public async getTransactionsBySenderKeyToRecipientKeyAsync(senderKey: string, recipientKey: string):
+        Promise<Transaction[]> {
+        try {
+            Logger.info(`Get transactions by senderKey to recipientKey ${senderKey} -> ${recipientKey}`);
+
+            const database = await this.client.connectAsync();
+            const collection = database.collection(this.tableName);
+
             return await collection.find({
-                "transaction.timestamp":
-                {
-                    $gt: beginDate.getTime(),
-                    $lt: endDate.getTime(),
-                },
-            })
-                .toArray();
-        } catch (error) {
-            Logger.error(error);
-
-            throw error;
-        } finally {
-            await this.client.disconnectAsync();
-        }
-    }
-
-    public async getTransactionsByRecipientAsync(recipient: string): Promise<Transaction[]> {
-        try {
-            Logger.info(`Get transactions by recipient ${recipient}`);
-
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            return await collection.find({ "transaction.recipient": recipient }).toArray();
-        } catch (error) {
-            Logger.error(error);
-
-            throw error;
-        } finally {
-            await this.client.disconnectAsync();
-        }
-    }
-
-    public async getTransactionsBySenderAsync(sender: string): Promise<Transaction[]> {
-        try {
-            Logger.info(`Get transactions by sender ${sender}`);
-
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            return await collection.find({ "transaction.sender": sender }).toArray();
-        } catch (error) {
-            Logger.error(error);
-
-            throw error;
-        } finally {
-            await this.client.disconnectAsync();
-        }
-    }
-
-    public async getTransactionsBySignatureAsync(signature: string): Promise<Transaction[]> {
-        try {
-            Logger.info(`Get transactions by signature ${signature}`);
-
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            return await collection.find({ "transaction.signature": signature }).toArray();
-        } catch (error) {
-            Logger.error(error);
-
-            throw error;
-        } finally {
-            await this.client.disconnectAsync();
-        }
-    }
-
-    public async getTransactionsBySenderRecipientAsync(sender: string, recipient: string): Promise<Transaction[]> {
-        try {
-            Logger.info(`Get transactions by sender and recipient ${sender} -> ${recipient}`);
-
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            return await collection.find({ "transaction.sender": sender, "transaction.recipient": recipient })
-                .toArray();
+                "transaction.recipientKey": recipientKey,
+                "transaction.senderKey": senderKey,
+            }).toArray();
         } catch (error) {
             Logger.error(error);
 

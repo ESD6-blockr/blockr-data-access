@@ -42,29 +42,7 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
-            return await collection.find({
-                "blockHeader.timestamp": {
-                    $gt: beginDate.getTime(),
-                    $lt: endDate.getTime(),
-                },
-            }).toArray();
-        } catch (error) {
-            Logger.error(error);
-
-            throw error;
-        } finally {
-            this.client.disconnectAsync();
-        }
-    }
-
-    public async getBlocksByDateAsync(date: Date): Promise<Block[]> {
-        try {
-            Logger.info(`Get blocks by date ${date}`);
-
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            return await collection.find({ "blockHeader.timestamp": date.getTime() }).toArray();
+            return await collection.find({ "blockHeader.date": { $gt: beginDate, $lt: endDate } }).toArray();
         } catch (error) {
             Logger.error(error);
 
@@ -141,31 +119,6 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
         }
     }
 
-    public async getNextBlockAsync(blockHash: string): Promise<Block> {
-        try {
-            Logger.info(`Get next block by block hash ${blockHash}`);
-
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            return new Promise((resolve, reject) => {
-                collection.findOne({ "blockHeader.parentHash": blockHash }).then((result) => {
-                    if (result) {
-                        resolve(result);
-                    }
-
-                    reject(`No next block found for hash ${blockHash}`);
-                });
-            });
-        } catch (error) {
-            Logger.error(error);
-
-            throw error;
-        } finally {
-            this.client.disconnectAsync();
-        }
-    }
-
     public async createBlocksAsync(blocks: Block[]): Promise<void> {
         try {
             Logger.info("Set multiple blocks");
@@ -191,40 +144,6 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
             const collection = database.collection(this.tableName);
 
             await collection.insertOne(block);
-        } catch (error) {
-            Logger.error(error);
-
-            throw error;
-        } finally {
-            this.client.disconnectAsync();
-        }
-    }
-
-    public async deleteBlocksByNumbersAsync(blockNumbers: number[]): Promise<void> {
-        try {
-            Logger.info("Delete multiple blocks by numbers");
-
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            await collection.deleteMany({ "blockHeader.blockNumber": blockNumbers });
-        } catch (error) {
-            Logger.error(error);
-
-            throw error;
-        } finally {
-            this.client.disconnectAsync();
-        }
-    }
-
-    public async deleteBlockByNumberAsync(blockNumber: number): Promise<void> {
-        try {
-            Logger.info("Delete single block by number");
-
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            await collection.deleteOne({ "blockHeader.blockNumber": blockNumber });
         } catch (error) {
             Logger.error(error);
 
