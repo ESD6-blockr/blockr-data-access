@@ -1,6 +1,9 @@
 export { IBlockchainRepository } from "./interfaces/blockchainRepository";
 export { IStateRepository } from "./interfaces/stateRepository";
+export { ITransactionRepository } from "./interfaces/transactionRepository";
 export { LevelStateRepository } from "./concrete/levelStateRepository";
 export { LevelBlockchainRepository } from "./concrete/levelBlockchainRepository";
-export { MongoBlockchainRepository } from "./concrete/mongoBlockchanRepository";
+export { LevelTransactionRepository } from "./concrete/levelTransactionRepository";
+export { MongoBlockchainRepository } from "./concrete/mongoBlockchainRepository";
 export { MongoStateRepository } from "./concrete/mongoStateRepository";
+export { MongoTransactionRepository } from "./concrete/mongoTransactionRepository";
