@@ -35,15 +35,19 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
         }
     }
 
-    public async getBlocksByPeriodAsync(beginTimestamp: number, endTimestamp: number): Promise<Block[]> {
+    public async getBlocksByDatePeriodAsync(beginDate: Date, endDate: Date): Promise<Block[]> {
         try {
-            Logger.info(`Get blocks within period ${beginTimestamp} - ${endTimestamp}`);
+            Logger.info(`Get blocks within date period ${beginDate} - ${endDate}`);
 
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
-            return await collection.find({ "blockHeader.timestamp": { $gt: beginTimestamp, $lt: endTimestamp } })
-                .toArray();
+            return await collection.find({
+                "blockHeader.timestamp": {
+                    $gt: beginDate.getTime(),
+                    $lt: endDate.getTime(),
+                },
+            }).toArray();
         } catch (error) {
             Logger.error(error);
 
@@ -53,14 +57,14 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
         }
     }
 
-    public async getBlocksByDateAsync(timestamp: number): Promise<Block[]> {
+    public async getBlocksByDateAsync(date: Date): Promise<Block[]> {
         try {
-            Logger.info(`Get blocks by date ${timestamp}`);
+            Logger.info(`Get blocks by date ${date}`);
 
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
-            return await collection.find({ "blockHeader.timestamp": timestamp }).toArray();
+            return await collection.find({ "blockHeader.timestamp": date.getTime() }).toArray();
         } catch (error) {
             Logger.error(error);
 
@@ -196,9 +200,9 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
         }
     }
 
-    public async deleteBlocksAsync(blockNumbers: number[]): Promise<void> {
+    public async deleteBlocksByNumbersAsync(blockNumbers: number[]): Promise<void> {
         try {
-            Logger.info("Delete multiple blocks");
+            Logger.info("Delete multiple blocks by numbers");
 
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
@@ -213,9 +217,9 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
         }
     }
 
-    public async deleteBlockAsync(blockNumber: number): Promise<void> {
+    public async deleteBlockByNumberAsync(blockNumber: number): Promise<void> {
         try {
-            Logger.info("Delete single block");
+            Logger.info("Delete single block by number");
 
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);

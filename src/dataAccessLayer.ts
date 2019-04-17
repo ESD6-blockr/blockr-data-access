@@ -35,12 +35,12 @@ export class DataAccessLayer {
         return await this.blockchainRepository.getBlockchainAsync();
     }
 
-    public async getBlocksByPeriodAsync(beginTimestamp: number, endTimestamp: number): Promise<Block[]> {
-        return await this.blockchainRepository.getBlocksByPeriodAsync(beginTimestamp, endTimestamp);
+    public async getBlocksByDatePeriodAsync(beginDate: Date, endDate: Date): Promise<Block[]> {
+        return await this.blockchainRepository.getBlocksByDatePeriodAsync(beginDate, endDate);
     }
 
-    public async getBlocksByDateAsync(timestamp: number): Promise<Block[]> {
-        return await this.blockchainRepository.getBlocksByDateAsync(timestamp);
+    public async getBlocksByDateAsync(date: Date): Promise<Block[]> {
+        return await this.blockchainRepository.getBlocksByDateAsync(date);
     }
 
     public async getBlocksByHashAsync(blockHash: string): Promise<Block[]> {
@@ -67,12 +67,12 @@ export class DataAccessLayer {
         await this.blockchainRepository.createBlockAsync(block);
     }
 
-    public async deleteBlocksAsync(blockNumbers: number[]): Promise<void> {
-        await this.blockchainRepository.deleteBlocksAsync(blockNumbers);
+    public async deleteBlocksByNumbersAsync(blockNumbers: number[]): Promise<void> {
+        await this.blockchainRepository.deleteBlocksByNumbersAsync(blockNumbers);
     }
 
-    public async deleteBlockAsync(blockNumber: number): Promise<void> {
-        await this.blockchainRepository.deleteBlockAsync(blockNumber);
+    public async deleteBlockByNumberAsync(blockNumber: number): Promise<void> {
+        await this.blockchainRepository.deleteBlockByNumberAsync(blockNumber);
     }
 
     public async getStatesAsync(): Promise<State[]> {
@@ -107,12 +107,12 @@ export class DataAccessLayer {
         return await this.transactionRepository.getTransactionsByAmountAsync(amount);
     }
 
-    public async getTransactionsByDateAsync(timestamp: number): Promise<Transaction[]> {
-        return await this.transactionRepository.getTransactionsByDateAsync(timestamp);
+    public async getTransactionsByDateAsync(date: Date): Promise<Transaction[]> {
+        return await this.transactionRepository.getTransactionsByDateAsync(date);
     }
 
-    public async getTransactionsByPeriodAsync(beginTimestamp: number, endTimestamp: number): Promise<Transaction[]> {
-        return await this.transactionRepository.getTransactionsByPeriodAsync(beginTimestamp, endTimestamp);
+    public async getTransactionsByDatePeriodAsync(beginDate: Date, endDate: Date): Promise<Transaction[]> {
+        return await this.transactionRepository.getTransactionsByDatePeriodAsync(beginDate, endDate);
     }
 
     public async getTransactionsByRecipientAsync(recipient: string): Promise<Transaction[]> {

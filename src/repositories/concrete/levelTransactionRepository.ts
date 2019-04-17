@@ -22,11 +22,11 @@ export class LevelTransactionRepository implements ITransactionRepository {
         throw new Error("Method not implemented.");
     }
 
-    public async getTransactionsByDateAsync(timestamp: number): Promise<Transaction[]> {
+    public async getTransactionsByDateAsync(date: Date): Promise<Transaction[]> {
         throw new Error("Method not implemented.");
     }
 
-    public async getTransactionsByPeriodAsync(beginTimestamp: number, endTimestamp: number): Promise<Transaction[]> {
+    public async getTransactionsByDatePeriodAsync(beginDate: Date, endDate: Date): Promise<Transaction[]> {
         throw new Error("Method not implemented.");
     }
 

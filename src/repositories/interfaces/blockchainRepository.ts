@@ -7,18 +7,18 @@ export interface IBlockchainRepository {
      */
     getBlockchainAsync(): Promise<Block[]>;
     /**
-     * Get the blocks in the blockchain within a period
-     * @param beginTimestamp starting date
-     * @param endTimestamp end date
+     * Get the blocks in the blockchain within a period of dates
+     * @param beginDate starting date
+     * @param endDate end date
      * @returns {Promise<block[]>} array of blocks
      */
-    getBlocksByPeriodAsync(beginTimestamp: number, endTimestamp: number): Promise<Block[]>;
+    getBlocksByDatePeriodAsync(beginDate: Date, endDate: Date): Promise<Block[]>;
     /**
      * Get the blocks in the blockchain by date
-     * @param timestamp timestamp of the block
+     * @param date date of the block
      * @returns {Promise<block[]>} array of blocks
      */
-    getBlocksByDateAsync(timestamp: number): Promise<Block[]>;
+    getBlocksByDateAsync(date: Date): Promise<Block[]>;
     /**
      * Get the blocks in the blockchain by hash
      * @param blockHash hash of the block
@@ -57,10 +57,10 @@ export interface IBlockchainRepository {
      * Delete multiple blocks by number
      * @param blockNumbers array of block numbers
      */
-    deleteBlocksAsync(blockNumbers: number[]): Promise<void>;
+    deleteBlocksByNumbersAsync(blockNumbers: number[]): Promise<void>;
     /**
      * Delete single block by number
      * @param blockNumber block number
      */
-    deleteBlockAsync(blockNumber: number): Promise<void>;
+    deleteBlockByNumberAsync(blockNumber: number): Promise<void>;
 }

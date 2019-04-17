@@ -14,17 +14,17 @@ export interface ITransactionRepository {
     getTransactionsByAmountAsync(amount: number): Promise<Transaction[]>;
     /**
      * Get all transactions by date
-     * @param timestamp transaction timestamp
+     * @param date transaction date
      * @returns {Promise<Transaction[]>} array of transactions
      */
-    getTransactionsByDateAsync(timestamp: number): Promise<Transaction[]>;
+    getTransactionsByDateAsync(date: Date): Promise<Transaction[]>;
     /**
-     * Get all transactions in a period
-     * @param beginTimestamp starting date
-     * @param endTimestamp end date
+     * Get all transactions in a period of dates
+     * @param beginDate starting date
+     * @param endDate end date
      * @returns {Promise<Transaction[]>} array of transactions
      */
-    getTransactionsByPeriodAsync(beginTimestamp: number, endTimestamp: number): Promise<Transaction[]>;
+    getTransactionsByDatePeriodAsync(beginDate: Date, endDate: Date): Promise<Transaction[]>;
     /**
      * Get all transactions by recipient
      * @param recipient transaction recipient

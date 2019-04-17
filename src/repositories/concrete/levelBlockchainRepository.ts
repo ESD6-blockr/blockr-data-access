@@ -18,11 +18,11 @@ export class LevelBlockchainRepository implements IBlockchainRepository {
         throw new Error("Method not implemented.");
     }
 
-    public async getBlocksByPeriodAsync(beginTimestamp: number, endTimestamp: number): Promise<Block[]> {
+    public async getBlocksByDatePeriodAsync(beginDate: Date, endDate: Date): Promise<Block[]> {
         throw new Error("Method not implemented.");
     }
 
-    public async getBlocksByDateAsync(timestamp: number): Promise<Block[]> {
+    public async getBlocksByDateAsync(date: Date): Promise<Block[]> {
         throw new Error("Method not implemented.");
     }
 
@@ -50,11 +50,11 @@ export class LevelBlockchainRepository implements IBlockchainRepository {
         throw new Error("Method not implemented.");
     }
 
-    public async deleteBlocksAsync(blockNumbers: number[]): Promise<void> {
+    public async deleteBlocksByNumbersAsync(blockNumbers: number[]): Promise<void> {
         throw new Error("Method not implemented.");
     }
 
-    public async deleteBlockAsync(blockNumber: number): Promise<void> {
+    public async deleteBlockByNumberAsync(blockNumber: number): Promise<void> {
         throw new Error("Method not implemented.");
     }
 }

@@ -52,14 +52,14 @@ export class MongoTransactionRepository implements ITransactionRepository {
         }
     }
 
-    public async getTransactionsByDateAsync(timestamp: number): Promise<Transaction[]> {
+    public async getTransactionsByDateAsync(date: Date): Promise<Transaction[]> {
         try {
-            Logger.info(`Get transactions by date ${timestamp}`);
+            Logger.info(`Get transactions by date ${date}`);
 
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
-            return await collection.find({ "transaction.timestamp": timestamp }).toArray();
+            return await collection.find({ "transaction.timestamp": date.getTime() }).toArray();
         } catch (error) {
             Logger.error(error);
 
@@ -69,14 +69,20 @@ export class MongoTransactionRepository implements ITransactionRepository {
         }
     }
 
-    public async getTransactionsByPeriodAsync(beginTimestamp: number, endTimestamp: number): Promise<Transaction[]> {
+    public async getTransactionsByDatePeriodAsync(beginDate: Date, endDate: Date): Promise<Transaction[]> {
         try {
-            Logger.info(`Get transactions within period ${beginTimestamp} - ${endTimestamp}`);
+            Logger.info(`Get transactions within date period ${beginDate} - ${endDate}`);
 
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
-            return await collection.find({ "transaction.timestamp": { $gt: beginTimestamp, $lt: endTimestamp } })
+            return await collection.find({
+                "transaction.timestamp":
+                {
+                    $gt: beginDate.getTime(),
+                    $lt: endDate.getTime(),
+                },
+            })
                 .toArray();
         } catch (error) {
             Logger.error(error);
