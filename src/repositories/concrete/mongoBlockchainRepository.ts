@@ -119,9 +119,9 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
         }
     }
 
-    public async createBlocksAsync(blocks: Block[]): Promise<void> {
+    public async addBlocksAsync(blocks: Block[]): Promise<void> {
         try {
-            Logger.info("Set multiple blocks");
+            Logger.info("Add multiple blocks");
 
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
@@ -136,9 +136,9 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
         }
     }
 
-    public async createBlockAsync(block: Block): Promise<void> {
+    public async addBlockAsync(block: Block): Promise<void> {
         try {
-            Logger.info("Set single block");
+            Logger.info("Add single block");
 
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);

@@ -39,11 +39,11 @@ export class LevelTransactionRepository implements ITransactionRepository {
         throw new Error("Method not implemented.");
     }
 
-    public async createTransactionsAsync(transactions: Transaction[]): Promise<void> {
+    public async addTransactionsAsync(transactions: Transaction[]): Promise<void> {
         throw new Error("Method not implemented.");
     }
 
-    public async createTransactionAsync(transaction: Transaction): Promise<void> {
+    public async addTransactionAsync(transaction: Transaction): Promise<void> {
         throw new Error("Method not implemented.");
     }
 }

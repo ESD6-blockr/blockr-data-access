@@ -51,12 +51,12 @@ export class DataAccessLayer {
         return await this.blockchainRepository.getPreviousBlockAsync(parentHash);
     }
 
-    public async createBlocksAsync(blocks: Block[]): Promise<void> {
-        await this.blockchainRepository.createBlocksAsync(blocks);
+    public async addBlocksAsync(blocks: Block[]): Promise<void> {
+        await this.blockchainRepository.addBlocksAsync(blocks);
     }
 
-    public async createBlockAsync(block: Block): Promise<void> {
-        await this.blockchainRepository.createBlockAsync(block);
+    public async addBlockAsync(block: Block): Promise<void> {
+        await this.blockchainRepository.addBlockAsync(block);
     }
 
     public async getStatesAsync(): Promise<State[]> {
@@ -108,11 +108,11 @@ export class DataAccessLayer {
         return await this.transactionRepository.getTransactionsBySenderKeyToRecipientKeyAsync(senderKey, recipientKey);
     }
 
-    public async createTransactionsAsync(transactions: Transaction[]): Promise<void> {
-        await this.transactionRepository.createTransactionsAsync(transactions);
+    public async addTransactionsAsync(transactions: Transaction[]): Promise<void> {
+        await this.transactionRepository.addTransactionsAsync(transactions);
     }
 
-    public async createTransactionAsync(transaction: Transaction): Promise<void> {
-        await this.transactionRepository.createTransactionAsync(transaction);
+    public async addTransactionAsync(transaction: Transaction): Promise<void> {
+        await this.transactionRepository.addTransactionAsync(transaction);
     }
 }

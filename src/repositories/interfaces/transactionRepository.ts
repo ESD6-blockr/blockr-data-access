@@ -42,10 +42,10 @@ export interface ITransactionRepository {
      * Add multiple transactions to the blockchain
      * @param transaction new transaction
      */
-    createTransactionsAsync(transactions: Transaction[]): Promise<void>;
+    addTransactionsAsync(transactions: Transaction[]): Promise<void>;
     /**
      * Add a single transaction to the blockchain
      * @param transaction new transaction
      */
-    createTransactionAsync(transaction: Transaction): Promise<void>;
+    addTransactionAsync(transaction: Transaction): Promise<void>;
 }

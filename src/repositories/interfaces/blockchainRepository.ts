@@ -32,13 +32,13 @@ export interface IBlockchainRepository {
      */
     getPreviousBlockAsync(parentHash: string): Promise<Block>;
     /**
-     * Create multiple blocks
+     * Add multiple blocks
      * @param blocks array of blocks
      */
-    createBlocksAsync(blocks: Block[]): Promise<void>;
+    addBlocksAsync(blocks: Block[]): Promise<void>;
     /**
-     * Create a single block
+     * Add a single block
      * @param block block
      */
-    createBlockAsync(block: Block): Promise<void>;
+    addBlockAsync(block: Block): Promise<void>;
 }

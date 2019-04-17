@@ -124,9 +124,9 @@ export class MongoTransactionRepository implements ITransactionRepository {
         }
     }
 
-    public async createTransactionsAsync(transactions: Transaction[]): Promise<void> {
+    public async addTransactionsAsync(transactions: Transaction[]): Promise<void> {
         try {
-            Logger.info("Set multiple transaction");
+            Logger.info("Add multiple transaction");
 
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
@@ -141,9 +141,9 @@ export class MongoTransactionRepository implements ITransactionRepository {
         }
     }
 
-    public async createTransactionAsync(transaction: Transaction): Promise<void> {
+    public async addTransactionAsync(transaction: Transaction): Promise<void> {
         try {
-            Logger.info("Set single transaction");
+            Logger.info("Add single transaction");
 
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
