@@ -26,12 +26,12 @@ DIContainer.bind<IClientConfiguration>("Configuration")
     .toConstantValue(new MongoDbConfiguration("connection string", "database"));
 ```
 
-*consumer (typicaly a service)*
+*consumer (typically a service)*
 ```ts
 class Main {
     private dataAccessLayer: DataAccessLayer;
 
-    constrcutor(@inject(DataAccessLayer) dataAccessLayer: DataAccessLayer) {
+    constructor(@inject(DataAccessLayer) dataAccessLayer: DataAccessLayer) {
         this.dataAccessLayer = dataAccessLayer;
     }
 }
@@ -41,12 +41,12 @@ class Main {
 
 ### Example:
 
-*consumer (typicaly a service)*
+*consumer (typically a service)*
 ```ts
 class Main {
     private dataAccessLayer: DataAccessLayer;
 
-    constrcutor() {
+    constructor() {
         this.dataAccessLayer = new DataAccessLayer(
             DataSource.MONGO_DB,
             new MongoDbConfiguration("connection string", "database")
