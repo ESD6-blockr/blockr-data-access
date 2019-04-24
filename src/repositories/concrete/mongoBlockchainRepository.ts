@@ -1,34 +1,28 @@
 import { Block } from "@blockr/blockr-models";
-import { inject, injectable } from "inversify";
+import { IClient, MongoDB } from "app/clients";
+import { IClientConfiguraton } from "app/configurations";
+import { IBlockchainRepository } from "app/repositories";
 import * as Mongo from "mongodb";
-import { IClient, MongoDB } from "../../clients";
-import Logger from "../../utils/logger";
-import { IBlockchainRepository } from "../interfaces/blockchainRepository";
 
 /**
  * MongoDB blockchain repository implementation
  */
-@injectable()
 export class MongoBlockchainRepository implements IBlockchainRepository {
     private client: IClient<Mongo.Db>;
     private readonly tableName: string;
 
-    constructor(@inject(MongoDB) client: IClient<Mongo.Db>) {
-        this.client = client;
+    constructor(configuration: IClientConfiguraton) {
+        this.client = new MongoDB(configuration);
         this.tableName = "blocks";
     }
 
     public async getBlockchainAsync(): Promise<Block[]> {
         try {
-            Logger.info("Get blockchain");
-
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
             return await collection.find().toArray();
         } catch (error) {
-            Logger.error(error);
-
             throw error;
         } finally {
             await this.client.disconnectAsync();
@@ -37,15 +31,11 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
 
     public async getBlocksByDatePeriodAsync(beginDate: Date, endDate: Date): Promise<Block[]> {
         try {
-            Logger.info(`Get blocks within date period ${beginDate} - ${endDate}`);
-
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
             return await collection.find({ "blockHeader.date": { $gt: beginDate, $lt: endDate } }).toArray();
         } catch (error) {
-            Logger.error(error);
-
             throw error;
         } finally {
             this.client.disconnectAsync();
@@ -54,15 +44,11 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
 
     public async getBlocksByHashAsync(blockHash: string): Promise<Block[]> {
         try {
-            Logger.info(`Get blocks by hash ${blockHash}`);
-
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
             return await collection.find({ "blockHeader.blockHash": blockHash }).toArray();
         } catch (error) {
-            Logger.error(error);
-
             throw error;
         } finally {
             this.client.disconnectAsync();
@@ -71,8 +57,6 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
 
     public async getBlockAsync(blockNumber: number): Promise<Block> {
         try {
-            Logger.info(`Get block by number ${blockNumber}`);
-
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
@@ -86,8 +70,6 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
                 });
             });
         } catch (error) {
-            Logger.error(error);
-
             throw error;
         } finally {
             this.client.disconnectAsync();
@@ -96,8 +78,6 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
 
     public async getPreviousBlockAsync(parentHash: string): Promise<Block> {
         try {
-            Logger.info(`Get previous block by parent hash ${parentHash}`);
-
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
@@ -111,8 +91,6 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
                 });
             });
         } catch (error) {
-            Logger.error(error);
-
             throw error;
         } finally {
             this.client.disconnectAsync();
@@ -121,15 +99,11 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
 
     public async addBlocksAsync(blocks: Block[]): Promise<void> {
         try {
-            Logger.info("Add multiple blocks");
-
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
             await collection.insertMany(blocks);
         } catch (error) {
-            Logger.error(error);
-
             throw error;
         } finally {
             this.client.disconnectAsync();
@@ -138,15 +112,11 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
 
     public async addBlockAsync(block: Block): Promise<void> {
         try {
-            Logger.info("Add single block");
-
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
             await collection.insertOne(block);
         } catch (error) {
-            Logger.error(error);
-
             throw error;
         } finally {
             this.client.disconnectAsync();

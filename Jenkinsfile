@@ -1,9 +1,12 @@
 #!groovy
 @Library('blockr-jenkins-lib') _
 
-Map sonarSettings = [
-    key: "blockr-data-access",
-    source: "src/"
+String repo = 'blockr-data-access'
+
+Map settings = [
+    sonar_key: 'blockr-data-access',
+    source_folder: 'src/',
+    archive_folders: ['dist/']
 ]
 
-tsBuildAndPublish(sonarSettings)
+tsBuildAndPublish(repo, settings)

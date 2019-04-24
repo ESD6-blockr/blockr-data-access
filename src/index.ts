@@ -1,3 +1,5 @@
-export { DataAccessLayer } from "./dataAccessLayer";
-export { DataSource } from "./clients/enums/dataSource";
-export { IClientConfiguraton, MongoDBConfiguration } from "./configurations";
+import "module-alias/register";
+
+export { DataAccessLayer } from "app/dataAccessLayer";
+export { DataSource } from "app/clients";
+export { IClientConfiguraton, MongoDBConfiguration } from "app/configurations";
