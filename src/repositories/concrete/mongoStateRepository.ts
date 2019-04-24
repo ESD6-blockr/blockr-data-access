@@ -1,34 +1,28 @@
 import { State, Transaction } from "@blockr/blockr-models";
-import { inject, injectable } from "inversify";
+import { IClient, MongoDB } from "app/clients";
+import { IClientConfiguraton } from "app/configurations";
+import { IStateRepository } from "app/repositories";
 import * as Mongo from "mongodb";
-import { IClient, MongoDB } from "../../clients";
-import Logger from "../../utils/logger";
-import { IStateRepository } from "../interfaces/stateRepository";
 
 /**
  * MongoDB state repository implementation
  */
-@injectable()
 export class MongoStateRepository implements IStateRepository {
     private client: IClient<Mongo.Db>;
-    private readonly states: string;
+    private readonly tableName: string;
 
-    constructor(@inject(MongoDB) client: IClient<Mongo.Db>) {
-        this.client = client;
-        this.states = "states";
+    constructor(configuration: IClientConfiguraton) {
+        this.client = new MongoDB(configuration);
+        this.tableName = "states";
     }
 
     public async getStatesAsync(): Promise<State[]> {
         try {
-            Logger.info("Get all states");
-
             const database = await this.client.connectAsync();
-            const collection = database.collection(this.states);
+            const collection = database.collection(this.tableName);
 
             return await collection.find().toArray();
         } catch (error) {
-            Logger.error(error);
-
             throw error;
         } finally {
             await this.client.disconnectAsync();
@@ -37,10 +31,8 @@ export class MongoStateRepository implements IStateRepository {
 
     public async getStateAsync(publicKey: string): Promise<State> {
         try {
-            Logger.info("Get single state by publicKey");
-
             const database = await this.client.connectAsync();
-            const collection = database.collection(this.states);
+            const collection = database.collection(this.tableName);
 
             return new Promise((resolve, reject) => {
                 collection.findOne({ publicKey }).then((result) => {
@@ -52,8 +44,6 @@ export class MongoStateRepository implements IStateRepository {
                 });
             });
         } catch (error) {
-            Logger.error(error);
-
             throw error;
         } finally {
             await this.client.disconnectAsync();
@@ -62,15 +52,11 @@ export class MongoStateRepository implements IStateRepository {
 
     public async setStatesAsync(states: State[]): Promise<void> {
         try {
-            Logger.info("Set multiple states");
-
             const database = await this.client.connectAsync();
-            const collection = database.collection(this.states);
+            const collection = database.collection(this.tableName);
 
             await collection.insertMany(states);
         } catch (error) {
-            Logger.error(error);
-
             throw error;
         } finally {
             await this.client.disconnectAsync();
@@ -79,15 +65,11 @@ export class MongoStateRepository implements IStateRepository {
 
     public async updateStatesAsync(transactions: Transaction[]): Promise<void> {
         try {
-            Logger.info("Update multiple states");
-
             const database = await this.client.connectAsync();
-            const collection = database.collection(this.states);
+            const collection = database.collection(this.tableName);
 
             await collection.updateMany({ transactions }, transactions);
         } catch (error) {
-            Logger.error(error);
-
             throw error;
         } finally {
             await this.client.disconnectAsync();
@@ -96,15 +78,11 @@ export class MongoStateRepository implements IStateRepository {
 
     public async clearStatesAsync(): Promise<void> {
         try {
-            Logger.info("Clear all states");
-
             const database = await this.client.connectAsync();
-            const collection = database.collection(this.states);
+            const collection = database.collection(this.tableName);
 
             await collection.deleteMany({});
         } catch (error) {
-            Logger.error(error);
-
             throw error;
         } finally {
             await this.client.disconnectAsync();
@@ -113,15 +91,11 @@ export class MongoStateRepository implements IStateRepository {
 
     public async updateStateAsync(publicKey: string, state: State): Promise<void> {
         try {
-            Logger.info("Update single state");
-
             const database = await this.client.connectAsync();
-            const collection = database.collection(this.states);
+            const collection = database.collection(this.tableName);
 
             await collection.updateOne({publicKey}, state);
         } catch (error) {
-            Logger.error(error);
-
             throw error;
         } finally {
             await this.client.disconnectAsync();

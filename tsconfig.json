@@ -1,5 +1,9 @@
 {
     "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "app/*": ["src/*"]
+        },
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "outDir": "./dist/",

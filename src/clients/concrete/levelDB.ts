@@ -1,7 +1,5 @@
-import { injectable } from "inversify";
-import { IClient } from "../interfaces/client";
+import { IClient } from "app/clients";
 
-@injectable()
 export class LevelDB implements IClient<void> {
 
 

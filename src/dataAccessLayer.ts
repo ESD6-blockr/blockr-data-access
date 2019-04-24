@@ -1,12 +1,11 @@
 import "reflect-metadata";
 
 import { Block, State, Transaction } from "@blockr/blockr-models";
+import { DataSource } from "app/clients";
+import { IClientConfiguraton } from "app/configurations";
+import { MongoBlockchainRepository, MongoStateRepository, MongoTransactionRepository } from "app/repositories";
+import { IBlockchainRepository, IStateRepository, ITransactionRepository } from "app/repositories";
 import { inject, injectable } from "inversify";
-import { DataSource } from "./clients";
-import DIContainer from "./injection/container";
-import { LevelBlockchainRepository, LevelStateRepository, LevelTransactionRepository } from "./repositories";
-import { MongoBlockchainRepository, MongoStateRepository, MongoTransactionRepository } from "./repositories";
-import { IBlockchainRepository, IStateRepository, ITransactionRepository } from "./repositories";
 
 @injectable()
 export class DataAccessLayer {
@@ -14,17 +13,15 @@ export class DataAccessLayer {
     private stateRepository: IStateRepository;
     private transactionRepository: ITransactionRepository;
 
-    constructor(@inject("DataSource") dataSource: DataSource) {
+    constructor(@inject("DataSource") dataSource: DataSource,
+                @inject("Configuration") configuration: IClientConfiguraton) {
         switch (dataSource) {
             case DataSource.LEVEL_DB:
-                this.blockchainRepository = DIContainer.resolve<IBlockchainRepository>(LevelBlockchainRepository);
-                this.stateRepository = DIContainer.resolve<IStateRepository>(LevelStateRepository);
-                this.transactionRepository = DIContainer.resolve<ITransactionRepository>(LevelTransactionRepository);
-                break;
+                throw new Error("Not yet implemented");
             case DataSource.MONGO_DB:
-                this.blockchainRepository = DIContainer.resolve<IBlockchainRepository>(MongoBlockchainRepository);
-                this.stateRepository = DIContainer.resolve<IStateRepository>(MongoStateRepository);
-                this.transactionRepository = DIContainer.resolve<ITransactionRepository>(MongoTransactionRepository);
+                this.blockchainRepository = new MongoBlockchainRepository(configuration);
+                this.stateRepository = new MongoStateRepository(configuration);
+                this.transactionRepository = new MongoTransactionRepository(configuration);
                 break;
             default:
                 throw new Error("Unrecognised dataSource");
