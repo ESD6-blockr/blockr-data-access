@@ -2,7 +2,7 @@ import "reflect-metadata";
 
 import { Block, State, Transaction } from "@blockr/blockr-models";
 import { DataSource } from "app/clients";
-import { IClientConfiguraton } from "app/configurations";
+import { IClientConfiguration } from "app/configurations";
 import { MongoBlockchainRepository, MongoStateRepository, MongoTransactionRepository } from "app/repositories";
 import { IBlockchainRepository, IStateRepository, ITransactionRepository } from "app/repositories";
 import { inject, injectable } from "inversify";
@@ -14,7 +14,7 @@ export class DataAccessLayer {
     private transactionRepository: ITransactionRepository;
 
     constructor(@inject("DataSource") dataSource: DataSource,
-                @inject("Configuration") configuration: IClientConfiguraton) {
+                @inject("Configuration") configuration: IClientConfiguration) {
         switch (dataSource) {
             case DataSource.LEVEL_DB:
                 throw new Error("Not yet implemented");
