@@ -1,6 +1,6 @@
 import { State, Transaction } from "@blockr/blockr-models";
 import { IClient, MongoDB } from "app/clients";
-import { IClientConfiguraton } from "app/configurations";
+import { IClientConfiguration } from "app/configurations";
 import { IStateRepository } from "app/repositories";
 import * as Mongo from "mongodb";
 
@@ -11,7 +11,7 @@ export class MongoStateRepository implements IStateRepository {
     private client: IClient<Mongo.Db>;
     private readonly tableName: string;
 
-    constructor(configuration: IClientConfiguraton) {
+    constructor(configuration: IClientConfiguration) {
         this.client = new MongoDB(configuration);
         this.tableName = "states";
     }

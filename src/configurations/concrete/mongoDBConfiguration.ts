@@ -1,8 +1,8 @@
-import { IClientConfiguraton } from "app/configurations";
+import { IClientConfiguration } from "app/configurations";
 import { injectable } from "inversify";
 
 @injectable()
-export class MongoDBConfiguration implements IClientConfiguraton {
+export class MongoDBConfiguration implements IClientConfiguration {
     public readonly connectionString: string;
     public readonly database: string;
 

@@ -1,4 +1,4 @@
-export interface IClientConfiguraton {
+export interface IClientConfiguration {
     readonly connectionString: string;
     readonly database: string;
 }

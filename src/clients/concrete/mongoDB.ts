@@ -1,12 +1,12 @@
 import { IClient } from "app/clients";
-import { IClientConfiguraton } from "app/configurations";
+import { IClientConfiguration } from "app/configurations";
 import * as Mongo from "mongodb";
 
 export class MongoDB implements IClient<Mongo.Db> {
     private client: Mongo.MongoClient;
-    private readonly configuration: IClientConfiguraton;
+    private readonly configuration: IClientConfiguration;
 
-    constructor(configuration: IClientConfiguraton) {
+    constructor(configuration: IClientConfiguration) {
         this.configuration = configuration;
     }
 

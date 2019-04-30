@@ -8,7 +8,7 @@ The data access layer can be consumed either by `dependency injection` or normal
 
 ## Dependency injection
 
-This library uses `inversify-js` as its dependency injection library. This means the consuming project is required to do the same. The data access has two dependencies: `DataSource` and `Configuration`.
+This library uses `inversify-js` as its dependency injection library. This means the consuming project is required to do the same. The data access layer has two dependencies: `DataSource` and `Configuration` that either need to be injected or constructed.
 
 |Name|Type|
 |-|-|
@@ -28,7 +28,7 @@ DIContainer.bind<IClientConfiguration>("Configuration")
 
 *consumer (typically a service)*
 ```ts
-class Main {
+class MainService {
     private dataAccessLayer: DataAccessLayer;
 
     constructor(@inject(DataAccessLayer) dataAccessLayer: DataAccessLayer) {
@@ -43,7 +43,7 @@ class Main {
 
 *consumer (typically a service)*
 ```ts
-class Main {
+class MainService {
     private dataAccessLayer: DataAccessLayer;
 
     constructor() {
