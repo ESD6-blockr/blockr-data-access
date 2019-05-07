@@ -1,4 +1,4 @@
-import { IClient } from "app/clients";
+import { IClient } from "../../clients";
 
 export class LevelDB implements IClient<void> {
 
