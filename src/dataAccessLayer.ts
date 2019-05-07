@@ -1,11 +1,10 @@
 import "reflect-metadata";
 
 import { Block, State, Transaction } from "@blockr/blockr-models";
-import { DataSource } from "app/clients";
-import { IClientConfiguration } from "app/configurations";
-import { MongoBlockchainRepository, MongoStateRepository, MongoTransactionRepository } from "app/repositories";
-import { IBlockchainRepository, IStateRepository, ITransactionRepository } from "app/repositories";
 import { inject, injectable } from "inversify";
+import { DataSource, IClientConfiguration } from ".";
+import { IBlockchainRepository, IStateRepository, ITransactionRepository } from "./repositories";
+import { MongoBlockchainRepository, MongoStateRepository, MongoTransactionRepository } from "./repositories";
 
 @injectable()
 export class DataAccessLayer {

@@ -1,12 +1,8 @@
 {
     "compilerOptions": {
-        "baseUrl": ".",
-        "paths": {
-            "app/*": ["src/*"]
-        },
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "outDir": "./dist/",
+        "outDir": "dist",
         "sourceMap": true,
         "strictNullChecks": true,
         "declaration": true,

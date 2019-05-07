@@ -1,8 +1,8 @@
 import { Block } from "@blockr/blockr-models";
-import { IClient, MongoDB } from "app/clients";
-import { IClientConfiguration } from "app/configurations";
-import { IBlockchainRepository } from "app/repositories";
 import * as Mongo from "mongodb";
+import { IClient, MongoDB } from "../../clients";
+import { IClientConfiguration } from "../../configurations";
+import { IBlockchainRepository } from "../../repositories";
 
 /**
  * MongoDB blockchain repository implementation

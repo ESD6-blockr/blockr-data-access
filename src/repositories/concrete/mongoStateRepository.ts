@@ -1,8 +1,8 @@
 import { State, Transaction } from "@blockr/blockr-models";
-import { IClient, MongoDB } from "app/clients";
-import { IClientConfiguration } from "app/configurations";
-import { IStateRepository } from "app/repositories";
 import * as Mongo from "mongodb";
+import { IClient, MongoDB } from "../../clients";
+import { IClientConfiguration } from "../../configurations";
+import { IStateRepository } from "../../repositories";
 
 /**
  * MongoDB state repository implementation

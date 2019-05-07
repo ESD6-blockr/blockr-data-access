@@ -1,5 +1,3 @@
-import "module-alias/register";
-
-export { DataAccessLayer } from "app/dataAccessLayer";
-export { DataSource } from "app/clients";
-export { IClientConfiguration, MongoDBConfiguration } from "app/configurations";
+export { DataAccessLayer } from "./dataAccessLayer";
+export { DataSource } from "./clients";
+export { IClientConfiguration, MongoDBConfiguration } from "./configurations";

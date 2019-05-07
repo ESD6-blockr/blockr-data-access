@@ -1,8 +1,8 @@
 import { Transaction } from "@blockr/blockr-models";
-import { IClient, MongoDB } from "app/clients";
-import { IClientConfiguration } from "app/configurations";
-import { ITransactionRepository } from "app/repositories";
 import * as Mongo from "mongodb";
+import { IClient, MongoDB } from "../../clients";
+import { IClientConfiguration } from "../../configurations";
+import { ITransactionRepository } from "../../repositories";
 
 /**
  * MongoDB transaction repository implementation

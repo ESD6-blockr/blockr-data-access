@@ -1,6 +1,6 @@
-import { IClient } from "app/clients";
-import { IClientConfiguration } from "app/configurations";
 import * as Mongo from "mongodb";
+import { IClient } from "../../clients";
+import { IClientConfiguration } from "../../configurations";
 
 export class MongoDB implements IClient<Mongo.Db> {
     private client: Mongo.MongoClient;
