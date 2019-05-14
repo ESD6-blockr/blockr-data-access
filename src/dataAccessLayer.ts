@@ -27,24 +27,8 @@ export class DataAccessLayer {
         }
     }
 
-    public async getBlockchainAsync(): Promise<Block[]> {
-        return await this.blockchainRepository.getBlockchainAsync();
-    }
-
-    public async getBlocksByDatePeriodAsync(beginDate: Date, endDate: Date): Promise<Block[]> {
-        return await this.blockchainRepository.getBlocksByDatePeriodAsync(beginDate, endDate);
-    }
-
-    public async getBlocksByHashAsync(blockHash: string): Promise<Block[]> {
-        return await this.blockchainRepository.getBlocksByHashAsync(blockHash);
-    }
-
-    public async getBlockAsync(blockNumber: number): Promise<Block> {
-        return await this.blockchainRepository.getBlockAsync(blockNumber);
-    }
-
-    public async getPreviousBlockAsync(parentHash: string): Promise<Block> {
-        return await this.blockchainRepository.getPreviousBlockAsync(parentHash);
+    public async getBlocksByQueryAsync(queries: [string, string]): Promise<Block[]> {
+        return await this.blockchainRepository.getBlocksByQueryAsync(queries);
     }
 
     public async addBlocksAsync(blocks: Block[]): Promise<void> {
@@ -79,33 +63,8 @@ export class DataAccessLayer {
         await this.stateRepository.clearStatesAsync();
     }
 
-    public async getTransactionsAsync(): Promise<Transaction[]> {
-        return await this.transactionRepository.getTransactionsAsync();
-    }
-
-    public async getTransactionsByAmountAsync(amount: number): Promise<Transaction[]> {
-        return await this.transactionRepository.getTransactionsByAmountAsync(amount);
-    }
-
-    public async getTransactionsByDatePeriodAsync(beginDate: Date, endDate: Date): Promise<Transaction[]> {
-        return await this.transactionRepository.getTransactionsByDatePeriodAsync(beginDate, endDate);
-    }
-
-    public async getTransactionsByRecipientKeyAsync(recipientKey: string): Promise<Transaction[]> {
-        return await this.transactionRepository.getTransactionsByRecipientKeyAsync(recipientKey);
-    }
-
-    public async getTransactionsBySenderKeyAsync(senderKey: string): Promise<Transaction[]> {
-        return await this.transactionRepository.getTransactionsBySenderKeyAsync(senderKey);
-    }
-
-    public async getTransactionsBySenderKeyToRecipientKeyAsync(senderKey: string, recipientKey: string):
-        Promise<Transaction[]> {
-        return await this.transactionRepository.getTransactionsBySenderKeyToRecipientKeyAsync(senderKey, recipientKey);
-    }
-
-    public async addTransactionsAsync(transactions: Transaction[]): Promise<void> {
-        await this.transactionRepository.addTransactionsAsync(transactions);
+    public async getTransactionsByQueryAsync(queries: [string, string]): Promise<Transaction[]> {
+        return await this.transactionRepository.getTransactionsByQueryAsync(queries);
     }
 
     public async addTransactionAsync(transaction: Transaction): Promise<void> {
