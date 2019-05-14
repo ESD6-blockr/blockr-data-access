@@ -6,6 +6,7 @@ String repo = 'blockr-data-access'
 Map settings = [
     sonar_key: 'blockr-data-access',
     source_folder: 'src/',
+    skip_test: true,
     archive_folders: ['dist/']
 ]
 
