@@ -21,7 +21,17 @@ export class MongoTransactionRepository implements ITransactionRepository {
     }
 
     public async getTransactionsByQueryAsync(queries: [string, string]): Promise<Transaction[]> {
-        return this.repositoryOperations.getObjectByQueryAsync(this.client, this.tableName, queries);
+        try {
+            const database = await this.client.connectAsync();
+            const collection = database.collection(this.tableName);
+
+            const transactions: Transaction[] = await collection.find().toArray();
+            return this.repositoryOperations.filterCollectionByQueries(transactions, transactions[0], queries);
+        } catch (error) {
+            throw error;
+        } finally {
+            this.client.disconnectAsync();
+        }
     }
 
     public async addTransactionAsync(transaction: Transaction): Promise<void> {

@@ -21,28 +21,16 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
     }
 
     public async getBlocksByQueryAsync(queries: [string, string]): Promise<Block[]> {
-        this.repositoryOperations.getObjectByQueryAsync(this.client, this.tableName, queries);
         try {
             const database = await this.client.connectAsync();
-            const allBlocks: Block[] = database.collection(this.tableName);
-            const filteredBlocks: Block[] = new Array();
+            const collection = database.collection(this.tableName);
 
-            for (const query of queries) {
-                const field = allBlocks[0].blockHeader[query[0]];
-                            
-                if (field) {
-                    throw new FilterException("Field in query does not exists");
-                }
-            
-                filteredBlocks.push.apply(filteredBlocks,
-                    (allBlocks.filter((block) => block.blockHeader[query[0]] === query[1])));
-            }
-
-            return filteredBlocks;
+            const blocks: Block[] = await collection.find().toArray();
+            return this.repositoryOperations.filterCollectionByQueries(blocks, blocks[0].blockHeader, queries);
         } catch (error) {
             throw error;
         } finally {
-            await this.client.disconnectAsync();
+            this.client.disconnectAsync();
         }
     }
 

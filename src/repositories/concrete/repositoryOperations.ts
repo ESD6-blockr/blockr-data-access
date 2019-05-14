@@ -1,41 +1,22 @@
-import { Block } from "@blockr/blockr-models";
-import * as Mongo from "mongodb";
+import { IModel } from "@blockr/blockr-models";
 import { IClient } from "../../clients";
 import { FilterException } from "../exceptions";
 
 export class RepositoryOperations {
-    public async getObjectByQueryAsync<T>(client: IClient<Mongo.Db>, tableName: string, queries: [string, string]): Promise<T[]> {
-        try {
-            const database = await client.connectAsync();
-            const allObjects: T[] = database.collection(tableName);
-            const filteredObjects: T[] = new Array();
-            
-            for (const query of queries) {
-                let field = allObjects[0][query[0]];
-                if (tableName === "blocks") {
-                    field = (allObjects[0] as Block).blockHeader[query[0]];
-                }
-                            
-                if (field) {
-                    throw new FilterException("Field in query does not exists");
-                }
-            
-                if (tableName === "blocks"){
-                    filteredObjects.push.apply(filteredObjects,
-                        (allObjects.filter((block) => (block as Block).blockHeader[query[0]] === query[1])));
-                }
+    public async filterCollectionByQueries<T, K>(collection: T[], queryable: K, queries: [string, string]): Promise<T[]> {
+        let filteredCollection: T[] = [];
 
-                if (tableName === "transactions"){
-                    filteredObjects.push.apply(filteredObjects,
-                        (allObjects.filter((transaction) => transaction[query[0]] === query[1])));
-                }
+        for (let i = 0; i < queries.length; i++) {
+            const field = queryable[queries[i][0]];
+                        
+            if (!field) {
+                throw new FilterException("Field in query does not exists");
             }
-
-            return filteredObjects;
-        } catch (error) {
-            throw error;
-        } finally {
-            await client.disconnectAsync();
+        
+            filteredCollection.push.apply(filteredCollection,
+                (collection.filter(() => field === queries[i][1])));
         }
+
+        return filteredCollection;
     }
 }
