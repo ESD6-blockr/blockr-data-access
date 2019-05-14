@@ -4,6 +4,7 @@ import { IClient, MongoDB } from "../../clients";
 import { IClientConfiguration } from "../../configurations";
 import { IBlockchainRepository } from "../../repositories";
 import { FilterException } from "../exceptions";
+import { RepositoryOperations } from "./repositoryOperations";
 
 /**
  * MongoDB blockchain repository implementation
@@ -11,13 +12,16 @@ import { FilterException } from "../exceptions";
 export class MongoBlockchainRepository implements IBlockchainRepository {
     private client: IClient<Mongo.Db>;
     private readonly tableName: string;
+    private repositoryOperations: RepositoryOperations;
 
     constructor(configuration: IClientConfiguration) {
         this.client = new MongoDB(configuration);
         this.tableName = "blocks";
+        this.repositoryOperations = new RepositoryOperations();
     }
 
     public async getBlocksByQueryAsync(queries: [string, string]): Promise<Block[]> {
+        this.repositoryOperations.getObjectByQueryAsync(this.client, this.tableName, queries);
         try {
             const database = await this.client.connectAsync();
             const allBlocks: Block[] = database.collection(this.tableName);

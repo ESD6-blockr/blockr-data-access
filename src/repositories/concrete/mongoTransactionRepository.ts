@@ -4,6 +4,7 @@ import { IClient, MongoDB } from "../../clients";
 import { IClientConfiguration } from "../../configurations";
 import { ITransactionRepository } from "../../repositories";
 import { FilterException } from "../exceptions";
+import { RepositoryOperations } from "./repositoryOperations";
 
 /**
  * MongoDB transaction repository implementation
@@ -11,35 +12,16 @@ import { FilterException } from "../exceptions";
 export class MongoTransactionRepository implements ITransactionRepository {
     private client: IClient<Mongo.Db>;
     private readonly tableName: string;
+    private repositoryOperations: RepositoryOperations;
 
     constructor(configuration: IClientConfiguration) {
         this.client = new MongoDB(configuration);
         this.tableName = "transactions";
+        this.repositoryOperations = new RepositoryOperations();
     }
 
     public async getTransactionsByQueryAsync(queries: [string, string]): Promise<Transaction[]> {
-        try {
-            const database = await this.client.connectAsync();
-            const allTransactions: Transaction[] = database.collection(this.tableName);
-            let filteredTransactions: Transaction[] = new Array();
-            
-            for (const query of queries) {
-                const field = allTransactions[0][query[0]];
-                            
-                if (field) {
-                    throw new FilterException("Field in query does not exists");
-                }
-            
-                filteredTransactions.push.apply(filteredTransactions,
-                    (allTransactions.filter((transaction) => transaction[query[0]] === query[1])));
-            }
-
-            return filteredTransactions;
-        } catch (error) {
-            throw error;
-        } finally {
-            await this.client.disconnectAsync();
-        }
+        return this.repositoryOperations.getObjectByQueryAsync(this.client, this.tableName, queries);
     }
 
     public async addTransactionAsync(transaction: Transaction): Promise<void> {
