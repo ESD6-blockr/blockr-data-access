@@ -3,6 +3,7 @@ import * as Mongo from "mongodb";
 import { IClient, MongoDB } from "../../clients";
 import { IClientConfiguration } from "../../configurations";
 import { IBlockchainRepository } from "../../repositories";
+import { FilterException } from "../exceptions";
 
 /**
  * MongoDB blockchain repository implementation
@@ -19,17 +20,20 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
     public async getBlocksByQueryAsync(queries: [string, string]): Promise<Block[]> {
         try {
             const database = await this.client.connectAsync();
-            const allBlocks: Block[] = await database.collection(this.tableName);
-            let filteredBlocks: Block[] = new Array();
-            for (const block of allBlocks) {
-                for (const query of queries) {
-                    if (this.paramQueryEqualsToFieldName(query[0])) {
-                        if (block.blockHeader.query[0] === query[1]) {
-                            filteredBlocks.push(block);
-                        }
-                    }
+            const allBlocks: Block[] = database.collection(this.tableName);
+            const filteredBlocks: Block[] = new Array();
+
+            for (const query of queries) {
+                const field = allBlocks[0].blockHeader[query[0]];
+                            
+                if (field) {
+                    throw new FilterException("Field in query does not exists");
                 }
+            
+                filteredBlocks.push.apply(filteredBlocks,
+                    (allBlocks.filter((block) => block.blockHeader[query[0]] === query[1])));
             }
+
             return filteredBlocks;
         } catch (error) {
             throw error;
@@ -62,15 +66,5 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
         } finally {
             this.client.disconnectAsync();
         }
-    }
-
-    private paramQueryEqualsToFieldName(queryName: string): boolean {
-        if (queryName === "blockNumber" 
-        || queryName === "date" 
-        || queryName === "blockHash" 
-        || queryName === "parentHash") {
-            return true;
-        }
-        return false;
     }
 }

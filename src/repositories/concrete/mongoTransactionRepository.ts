@@ -3,6 +3,7 @@ import * as Mongo from "mongodb";
 import { IClient, MongoDB } from "../../clients";
 import { IClientConfiguration } from "../../configurations";
 import { ITransactionRepository } from "../../repositories";
+import { FilterException } from "../exceptions";
 
 /**
  * MongoDB transaction repository implementation
@@ -19,17 +20,20 @@ export class MongoTransactionRepository implements ITransactionRepository {
     public async getTransactionsByQueryAsync(queries: [string, string]): Promise<Transaction[]> {
         try {
             const database = await this.client.connectAsync();
-            const allTransactions: Transaction[] = await database.collection(this.tableName);
+            const allTransactions: Transaction[] = database.collection(this.tableName);
             let filteredTransactions: Transaction[] = new Array();
-            for (const transaction of allTransactions) {
-                for (const query of queries) {
-                    if (this.paramQueryEqualsToFieldName(query[0])) {
-                        if (transaction.query[0] === query[1]) {
-                            filteredTransactions.push(transaction);
-                        }
-                    }
+            
+            for (const query of queries) {
+                const field = allTransactions[0][query[0]];
+                            
+                if (field) {
+                    throw new FilterException("Field in query does not exists");
                 }
+            
+                filteredTransactions.push.apply(filteredTransactions,
+                    (allTransactions.filter((transaction) => transaction[query[0]] === query[1])));
             }
+
             return filteredTransactions;
         } catch (error) {
             throw error;
@@ -49,17 +53,5 @@ export class MongoTransactionRepository implements ITransactionRepository {
         } finally {
             this.client.disconnectAsync();
         }
-    }
-
-    private paramQueryEqualsToFieldName(queryName: string): boolean {
-        if (queryName === "recipientKey" 
-        || queryName === "senderKey" 
-        || queryName === "amount" 
-        || queryName === "date" 
-        || queryName === "signature"
-        || queryName === "blockHash") {
-            return true;
-        }
-        return false;
     }
 }
