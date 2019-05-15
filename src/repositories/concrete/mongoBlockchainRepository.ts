@@ -3,6 +3,8 @@ import * as Mongo from "mongodb";
 import { IClient, MongoDB } from "../../clients";
 import { IClientConfiguration } from "../../configurations";
 import { IBlockchainRepository } from "../../repositories";
+import { FilterException } from "../exceptions";
+import { RepositoryOperations } from "./repositoryOperations";
 
 /**
  * MongoDB blockchain repository implementation
@@ -10,86 +12,21 @@ import { IBlockchainRepository } from "../../repositories";
 export class MongoBlockchainRepository implements IBlockchainRepository {
     private client: IClient<Mongo.Db>;
     private readonly tableName: string;
+    private repositoryOperations: RepositoryOperations;
 
     constructor(configuration: IClientConfiguration) {
         this.client = new MongoDB(configuration);
         this.tableName = "blocks";
+        this.repositoryOperations = new RepositoryOperations();
     }
 
-    public async getBlockchainAsync(): Promise<Block[]> {
+    public async getBlocksByQueryAsync(queries: [string, string]): Promise<Block[]> {
         try {
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
-            return await collection.find().toArray();
-        } catch (error) {
-            throw error;
-        } finally {
-            await this.client.disconnectAsync();
-        }
-    }
-
-    public async getBlocksByDatePeriodAsync(beginDate: Date, endDate: Date): Promise<Block[]> {
-        try {
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            return await collection.find({ "blockHeader.date": { $gt: beginDate, $lt: endDate } }).toArray();
-        } catch (error) {
-            throw error;
-        } finally {
-            this.client.disconnectAsync();
-        }
-    }
-
-    public async getBlocksByHashAsync(blockHash: string): Promise<Block[]> {
-        try {
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            return await collection.find({ "blockHeader.blockHash": blockHash }).toArray();
-        } catch (error) {
-            throw error;
-        } finally {
-            this.client.disconnectAsync();
-        }
-    }
-
-    public async getBlockAsync(blockNumber: number): Promise<Block> {
-        try {
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            return new Promise((resolve, reject) => {
-                collection.findOne({ "blockHeader.blockNumber": blockNumber }).then((result) => {
-                    if (result) {
-                        resolve(result);
-                    }
-
-                    reject(`Block not found ${blockNumber}`);
-                });
-            });
-        } catch (error) {
-            throw error;
-        } finally {
-            this.client.disconnectAsync();
-        }
-    }
-
-    public async getPreviousBlockAsync(parentHash: string): Promise<Block> {
-        try {
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            return new Promise((resolve, reject) => {
-                collection.findOne({ "blockHeader.blockHash": parentHash }).then((result) => {
-                    if (result) {
-                        resolve(result);
-                    }
-
-                    reject(`No previous block found for hash ${parentHash}`);
-                });
-            });
+            const blocks: Block[] = await collection.find().toArray();
+            return this.repositoryOperations.filterCollectionByQueries(blocks, blocks[0].blockHeader, queries);
         } catch (error) {
             throw error;
         } finally {

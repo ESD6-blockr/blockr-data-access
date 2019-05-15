@@ -3,6 +3,8 @@ import * as Mongo from "mongodb";
 import { IClient, MongoDB } from "../../clients";
 import { IClientConfiguration } from "../../configurations";
 import { ITransactionRepository } from "../../repositories";
+import { FilterException } from "../exceptions";
+import { RepositoryOperations } from "./repositoryOperations";
 
 /**
  * MongoDB transaction repository implementation
@@ -10,100 +12,21 @@ import { ITransactionRepository } from "../../repositories";
 export class MongoTransactionRepository implements ITransactionRepository {
     private client: IClient<Mongo.Db>;
     private readonly tableName: string;
+    private repositoryOperations: RepositoryOperations;
 
     constructor(configuration: IClientConfiguration) {
         this.client = new MongoDB(configuration);
         this.tableName = "transactions";
+        this.repositoryOperations = new RepositoryOperations();
     }
 
-    public async getTransactionsAsync(): Promise<Transaction[]> {
+    public async getTransactionsByQueryAsync(queries: [string, string]): Promise<Transaction[]> {
         try {
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
-            return await collection.find().toArray();
-        } catch (error) {
-            throw error;
-        } finally {
-            await this.client.disconnectAsync();
-        }
-    }
-
-    public async getTransactionsByAmountAsync(amount: number): Promise<Transaction[]> {
-        try {
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            return await collection.find({ "transaction.amount": amount }).toArray();
-        } catch (error) {
-            throw error;
-        } finally {
-            await this.client.disconnectAsync();
-        }
-    }
-
-    public async getTransactionsByDatePeriodAsync(beginDate: Date, endDate: Date): Promise<Transaction[]> {
-        try {
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            return await collection.find({ "transaction.date": { $gt: beginDate, $lt: endDate } }).toArray();
-        } catch (error) {
-            throw error;
-        } finally {
-            await this.client.disconnectAsync();
-        }
-    }
-
-    public async getTransactionsByRecipientKeyAsync(recipientKey: string): Promise<Transaction[]> {
-        try {
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            return await collection.find({ "transaction.recipientKey": recipientKey }).toArray();
-        } catch (error) {
-            throw error;
-        } finally {
-            await this.client.disconnectAsync();
-        }
-    }
-
-    public async getTransactionsBySenderKeyAsync(senderKey: string): Promise<Transaction[]> {
-        try {
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            return await collection.find({ "transaction.senderKey": senderKey }).toArray();
-        } catch (error) {
-            throw error;
-        } finally {
-            await this.client.disconnectAsync();
-        }
-    }
-
-    public async getTransactionsBySenderKeyToRecipientKeyAsync(senderKey: string, recipientKey: string):
-        Promise<Transaction[]> {
-        try {
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            return await collection.find({
-                "transaction.recipientKey": recipientKey,
-                "transaction.senderKey": senderKey,
-            }).toArray();
-        } catch (error) {
-            throw error;
-        } finally {
-            await this.client.disconnectAsync();
-        }
-    }
-
-    public async addTransactionsAsync(transactions: Transaction[]): Promise<void> {
-        try {
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            await collection.insertMany(transactions);
+            const transactions: Transaction[] = await collection.find().toArray();
+            return this.repositoryOperations.filterCollectionByQueries(transactions, transactions[0], queries);
         } catch (error) {
             throw error;
         } finally {
