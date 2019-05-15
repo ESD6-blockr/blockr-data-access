@@ -8,9 +8,9 @@ import { MongoBlockchainRepository, MongoStateRepository, MongoTransactionReposi
 
 @injectable()
 export class DataAccessLayer {
-    private blockchainRepository: IBlockchainRepository;
-    private stateRepository: IStateRepository;
-    private transactionRepository: ITransactionRepository;
+    private readonly blockchainRepository: IBlockchainRepository;
+    private readonly stateRepository: IStateRepository;
+    private readonly transactionRepository: ITransactionRepository;
 
     constructor(@inject("DataSource") dataSource: DataSource,
                 @inject("Configuration") configuration: IClientConfiguration) {
@@ -28,7 +28,7 @@ export class DataAccessLayer {
     }
 
     public async getBlocksByQueryAsync(queries: [string, string]): Promise<Block[]> {
-        return await this.blockchainRepository.getBlocksByQueryAsync(queries);
+        return this.blockchainRepository.getBlocksByQueryAsync(queries);
     }
 
     public async addBlocksAsync(blocks: Block[]): Promise<void> {
@@ -40,11 +40,11 @@ export class DataAccessLayer {
     }
 
     public async getStatesAsync(): Promise<State[]> {
-        return await this.stateRepository.getStatesAsync();
+        return this.stateRepository.getStatesAsync();
     }
 
     public async getStateAsync(publicKey: string): Promise<State> {
-        return await this.stateRepository.getStateAsync(publicKey);
+        return this.stateRepository.getStateAsync(publicKey);
     }
 
     public async setStatesAsync(states: State[]): Promise<void> {
@@ -64,7 +64,7 @@ export class DataAccessLayer {
     }
 
     public async getTransactionsByQueryAsync(queries: [string, string]): Promise<Transaction[]> {
-        return await this.transactionRepository.getTransactionsByQueryAsync(queries);
+        return this.transactionRepository.getTransactionsByQueryAsync(queries);
     }
 
     public async addTransactionAsync(transaction: Transaction): Promise<void> {

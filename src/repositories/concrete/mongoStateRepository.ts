@@ -8,7 +8,7 @@ import { IStateRepository } from "../../repositories";
  * MongoDB state repository implementation
  */
 export class MongoStateRepository implements IStateRepository {
-    private client: IClient<Mongo.Db>;
+    private readonly client: IClient<Mongo.Db>;
     private readonly tableName: string;
 
     constructor(configuration: IClientConfiguration) {
@@ -22,8 +22,6 @@ export class MongoStateRepository implements IStateRepository {
             const collection = database.collection(this.tableName);
 
             return await collection.find().toArray();
-        } catch (error) {
-            throw error;
         } finally {
             await this.client.disconnectAsync();
         }
@@ -43,8 +41,6 @@ export class MongoStateRepository implements IStateRepository {
                     reject(result);
                 });
             });
-        } catch (error) {
-            throw error;
         } finally {
             await this.client.disconnectAsync();
         }
@@ -56,8 +52,6 @@ export class MongoStateRepository implements IStateRepository {
             const collection = database.collection(this.tableName);
 
             await collection.insertMany(states);
-        } catch (error) {
-            throw error;
         } finally {
             await this.client.disconnectAsync();
         }
@@ -69,8 +63,6 @@ export class MongoStateRepository implements IStateRepository {
             const collection = database.collection(this.tableName);
 
             await collection.updateMany({ transactions }, transactions);
-        } catch (error) {
-            throw error;
         } finally {
             await this.client.disconnectAsync();
         }
@@ -82,8 +74,6 @@ export class MongoStateRepository implements IStateRepository {
             const collection = database.collection(this.tableName);
 
             await collection.deleteMany({});
-        } catch (error) {
-            throw error;
         } finally {
             await this.client.disconnectAsync();
         }
@@ -95,8 +85,6 @@ export class MongoStateRepository implements IStateRepository {
             const collection = database.collection(this.tableName);
 
             await collection.updateOne({publicKey}, state);
-        } catch (error) {
-            throw error;
         } finally {
             await this.client.disconnectAsync();
         }
