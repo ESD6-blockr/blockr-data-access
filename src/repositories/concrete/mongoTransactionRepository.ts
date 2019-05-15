@@ -10,9 +10,9 @@ import { RepositoryOperations } from "./repositoryOperations";
  * MongoDB transaction repository implementation
  */
 export class MongoTransactionRepository implements ITransactionRepository {
-    private client: IClient<Mongo.Db>;
+    private readonly client: IClient<Mongo.Db>;
     private readonly tableName: string;
-    private repositoryOperations: RepositoryOperations;
+    private readonly repositoryOperations: RepositoryOperations;
 
     constructor(configuration: IClientConfiguration) {
         this.client = new MongoDB(configuration);
@@ -27,8 +27,6 @@ export class MongoTransactionRepository implements ITransactionRepository {
 
             const transactions: Transaction[] = await collection.find().toArray();
             return this.repositoryOperations.filterCollectionByQueries(transactions, transactions[0], queries);
-        } catch (error) {
-            throw error;
         } finally {
             this.client.disconnectAsync();
         }
@@ -40,8 +38,6 @@ export class MongoTransactionRepository implements ITransactionRepository {
             const collection = database.collection(this.tableName);
 
             await collection.insertOne(transaction);
-        } catch (error) {
-            throw error;
         } finally {
             this.client.disconnectAsync();
         }

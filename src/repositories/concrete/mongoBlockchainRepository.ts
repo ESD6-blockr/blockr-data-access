@@ -10,9 +10,9 @@ import { RepositoryOperations } from "./repositoryOperations";
  * MongoDB blockchain repository implementation
  */
 export class MongoBlockchainRepository implements IBlockchainRepository {
-    private client: IClient<Mongo.Db>;
+    private readonly client: IClient<Mongo.Db>;
     private readonly tableName: string;
-    private repositoryOperations: RepositoryOperations;
+    private readonly repositoryOperations: RepositoryOperations;
 
     constructor(configuration: IClientConfiguration) {
         this.client = new MongoDB(configuration);
@@ -27,8 +27,6 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
 
             const blocks: Block[] = await collection.find().toArray();
             return this.repositoryOperations.filterCollectionByQueries(blocks, blocks[0].blockHeader, queries);
-        } catch (error) {
-            throw error;
         } finally {
             this.client.disconnectAsync();
         }
@@ -40,8 +38,6 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
             const collection = database.collection(this.tableName);
 
             await collection.insertMany(blocks);
-        } catch (error) {
-            throw error;
         } finally {
             this.client.disconnectAsync();
         }
@@ -53,8 +49,6 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
             const collection = database.collection(this.tableName);
 
             await collection.insertOne(block);
-        } catch (error) {
-            throw error;
         } finally {
             this.client.disconnectAsync();
         }
