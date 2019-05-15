@@ -5,7 +5,7 @@ export interface IBlockchainRepository {
      * Get the full blockchain
      * @returns {Promise<Block[]>} array of blocks
      */
-    getBlocksByQueryAsync(queries: [string, string]): Promise<Block[]>;
+    getBlocksByQueryAsync(queries: object): Promise<Block[]>;
     /**
      * Add multiple blocks
      * @param blocks array of blocks

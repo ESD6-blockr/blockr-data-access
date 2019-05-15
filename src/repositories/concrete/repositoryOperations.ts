@@ -3,19 +3,19 @@ import { FilterException } from "../exceptions";
 export class RepositoryOperations {
     public async filterCollectionByQueries<T, K>(collection: T[],
                                                  queryable: K,
-                                                 queries: [string, string]): Promise<T[]> {
+                                                 queries: object): Promise<T[]> {
         const filteredCollection: T[] = [];
 
-        for (const query of queries) {
-            const field = queryable[query[0]];
-                        
+        Object.keys(queries).forEach((queryKey) => {
+            const field = queryable[queryKey];
+
             if (!field) {
                 throw new FilterException("Field in query does not exists");
             }
-        
+
             filteredCollection.push.apply(filteredCollection,
-                (collection.filter(() => field === query[1])));
-        }
+                (collection.filter(() => field === queries[queryKey])));
+        });
 
         return filteredCollection;
     }
