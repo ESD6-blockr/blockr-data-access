@@ -27,7 +27,7 @@ export class DataAccessLayer {
         }
     }
 
-    public async getBlocksByQueryAsync(queries: [string, string]): Promise<Block[]> {
+    public async getBlocksByQueryAsync(queries: object): Promise<Block[]> {
         return this.blockchainRepository.getBlocksByQueryAsync(queries);
     }
 
@@ -63,7 +63,7 @@ export class DataAccessLayer {
         await this.stateRepository.clearStatesAsync();
     }
 
-    public async getTransactionsByQueryAsync(queries: [string, string]): Promise<Transaction[]> {
+    public async getTransactionsByQueryAsync(queries: object): Promise<Transaction[]> {
         return this.transactionRepository.getTransactionsByQueryAsync(queries);
     }
 
