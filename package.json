@@ -16,7 +16,7 @@
   "author": "Blockr",
   "license": "MIT",
   "dependencies": {
-    "@blockr/blockr-models": "^1.3.0-11",
+    "@blockr/blockr-models": "^1.4.0-2",
     "inversify": "^5.0.1",
     "mongodb": "^3.2.2",
     "reflect-metadata": "^0.1.13"
