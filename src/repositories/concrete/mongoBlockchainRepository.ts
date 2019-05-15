@@ -21,8 +21,10 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
 
     public async getBlocksByQueryAsync(queries: object): Promise<Block[]> {
         try {
-            // TODO: Fix this query
-            const results: Block[] = [];
+            const database = await this.client.connectAsync();
+            const collection = database.collection(this.tableName);
+            // TODO: Fix this query to include filters
+            const results: Block[] = await collection.find().toArray();
             return results;
         } finally {
             this.client.disconnectAsync();
