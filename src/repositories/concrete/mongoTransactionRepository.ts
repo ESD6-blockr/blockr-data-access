@@ -30,7 +30,7 @@ export class MongoTransactionRepository implements ITransactionRepository {
             if (Object.keys(queries).length < 1) {
                 return transactions;
             }
-            
+
             return this.repositoryOperations.filterCollectionByQueries(transactions, transactions[0], queries);
         } finally {
             this.client.disconnectAsync();
