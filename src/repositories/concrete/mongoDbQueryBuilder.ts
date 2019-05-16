@@ -8,19 +8,19 @@ export class MongoDbQueryBuilder {
         for (const queryKey of Object.keys(urlParams)) {
             try {
                 const type = exampleModel[queryKey].constructor.name;
-                const filer = {};
+                const filter = {};
                 switch (type) {
                     case "Number":
-                        filer[queryKey] = parseFloat(urlParams[queryKey]);
-                        finalQuery.push(filer);
+                        filter[queryKey] = parseFloat(urlParams[queryKey]);
+                        finalQuery.push(filter);
                         break;
                     case "Date":
-                        filer[queryKey] = urlParams[queryKey];
-                        finalQuery.push(filer);
+                        filter[queryKey] = urlParams[queryKey];
+                        finalQuery.push(filter);
                         break;
                     case "String":
-                        filer[queryKey] = urlParams[queryKey];
-                        finalQuery.push(filer);
+                        filter[queryKey] = urlParams[queryKey];
+                        finalQuery.push(filter);
                         break;
                     default:
                         throw new TypeNotImplementedException(`Type: ${type} has not been implemented on: ${queryKey}`);

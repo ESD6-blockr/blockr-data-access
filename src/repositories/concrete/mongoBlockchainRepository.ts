@@ -1,4 +1,4 @@
-import { Block } from "@blockr/blockr-models";
+import { Block, Transaction, BlockHeader } from "@blockr/blockr-models";
 import * as Mongo from "mongodb";
 import { IClient, MongoDB } from "../../clients";
 import { IClientConfiguration } from "../../configurations";
@@ -21,11 +21,12 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
 
     public async getBlocksByQueryAsync(queries: object): Promise<Block[]> {
         try {
+            const exampleBlock = this.getExampleBlock();
+            queries = this.mongoDbQueryBuilder.rebuildQuery<BlockHeader>(queries, exampleBlock.blockHeader);
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
-            // TODO: Fix this query to include filters
-            const results: Block[] = await collection.find().toArray();
-            return results;
+
+            return await collection.find(queries).toArray();
         } finally {
             this.client.disconnectAsync();
         }
@@ -51,5 +52,10 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
         } finally {
             this.client.disconnectAsync();
         }
+    }
+
+    private getExampleBlock() {
+        const block = new Block(new BlockHeader("validatorVersion", 234, new Date(), 123), new Set());
+        return block;
     }
 }
