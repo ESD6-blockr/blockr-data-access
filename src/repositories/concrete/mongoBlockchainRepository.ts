@@ -1,4 +1,4 @@
-import { Block, Transaction, BlockHeader } from "@blockr/blockr-models";
+import { Block, BlockHeader } from "@blockr/blockr-models";
 import * as Mongo from "mongodb";
 import { IClient, MongoDB } from "../../clients";
 import { IClientConfiguration } from "../../configurations";
