@@ -44,7 +44,7 @@ export class MongoTransactionRepository implements ITransactionRepository {
     }
 
     private getExampleTransaction() {
-        const transaction = new Transaction(TransactionType.COIN, "1", "2", 123, new Date());
+        const transaction = new Transaction(TransactionType.COIN, "1", "2", 1, new Date());
         transaction.signature = "signature";
         return transaction;
     }
