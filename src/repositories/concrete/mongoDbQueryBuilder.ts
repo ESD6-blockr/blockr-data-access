@@ -1,4 +1,4 @@
-import { FieldDoesNotExist } from "../../exceptions/fieldDoesNotExist.exeception";
+import { FieldDoesNotExistException } from "../../exceptions/fieldDoesNotExist.exeception";
 import { TypeNotImplementedException } from "../../exceptions/typeNotImplemented.exception";
 
 export class MongoDbQueryBuilder {
@@ -25,11 +25,12 @@ export class MongoDbQueryBuilder {
                     default:
                         throw new TypeNotImplementedException(`Type: ${type} has not been implemented on: ${queryKey}`);
                 }
-            } catch (err) {
-                throw new FieldDoesNotExist(`Field: ${queryKey} does not exist on: ${exampleModel.constructor.name}`);
+            } catch {
+                throw new FieldDoesNotExistException(`Field: ${queryKey} does not exist on:
+                                                        ${exampleModel.constructor.name}`);
             }
         }
 
-        return finalQuery.length < 1 ? {} : { $and: finalQuery };
+        return finalQuery.length === 0 ? { } : { $and: finalQuery };
     }
 }
