@@ -25,7 +25,10 @@ export class MongoDbQueryBuilder {
                     default:
                         throw new TypeNotImplementedException(`Type: ${type} has not been implemented on: ${queryKey}`);
                 }
-            } catch {
+            } catch (error) {
+                if (error.message.indexOf("Type") > -1) {
+                    throw error;
+                }
                 throw new FieldDoesNotExistException(`Field: ${queryKey} does not exist on:
                                                         ${exampleModel.constructor.name}`);
             }
