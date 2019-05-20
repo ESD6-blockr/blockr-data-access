@@ -1,8 +1,8 @@
-import { DataAccessLayer } from "../dataAccessLayer";
+import { Block, BlockHeader, State, Transaction, TransactionType } from "@blockr/blockr-models";
+import { MongoMemoryServer } from "mongodb-memory-server-core";
 import { DataSource } from "../clients";
 import { IClientConfiguration } from "../configurations";
-import { Block, BlockHeader, Transaction, TransactionType, State } from "@blockr/blockr-models";
-import { MongoMemoryServer } from 'mongodb-memory-server-core';
+import { DataAccessLayer } from "../dataAccessLayer";
 
 jest.mock("@blockr/blockr-logger");
 
@@ -14,7 +14,7 @@ const getBlock = (): Block => {
     
     const blockHeader: BlockHeader = new BlockHeader("1", blockNumer, new Date(), amount);
     return new Block(blockHeader, new Set());
-}
+};
 
 const getTransaction = (): Transaction => {
     const amount = Math.floor(Math.random() * 1000) + 1;
@@ -36,8 +36,8 @@ describe("DataAccesLayer with DataSource MongoDB", () => {
 
         const configuration: IClientConfiguration = {
             connectionString: uri,
-            database: "database"
-        }
+            database: "database",
+        };
         mongodbDataAccesLayer = new DataAccessLayer(DataSource.MONGO_DB, configuration);
         expect(mongodbDataAccesLayer).not.toBeUndefined();
         done();
@@ -72,13 +72,13 @@ describe("DataAccesLayer with DataSource MongoDB", () => {
     it("Should add a transaction", () => {
         const result = mongodbDataAccesLayer.addTransactionAsync(getTransaction());
         expect(result).toBeInstanceOf(Promise);
-    })
+    });
 
     it("Shoud get blocks by query", async () => {
         const transaction: Transaction = getTransaction();
         await mongodbDataAccesLayer.addTransactionAsync(transaction);
         const result = await mongodbDataAccesLayer.getTransactionsByQueryAsync({
-            amount: transaction.amount
+            amount: transaction.amount,
         });
         expect(result.length).toBe(1);
     });
@@ -109,11 +109,11 @@ describe("DataAccesLayer with DataSource LevelDB", () => {
     it("Should not be iplemented yet", () => {
         const configuration: IClientConfiguration = {
             connectionString: "...",
-            database: "..."
-        }
+            database: "...",
+        };
         try {
-            new DataAccessLayer(DataSource.LEVEL_DB, configuration);
-            fail("No errors were thrown");
+            const mongodbDataAccesLayer = new DataAccessLayer(DataSource.LEVEL_DB, configuration);
+            expect(mongodbDataAccesLayer).toBeUndefined();
         } catch (error) {
             expect(error.message).toContain("Not yet implemented");
         }
