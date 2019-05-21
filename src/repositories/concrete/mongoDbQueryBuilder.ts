@@ -1,14 +1,13 @@
-import { FieldDoesNotExistException } from "../../exceptions/fieldDoesNotExist.exeception";
+import { FieldDoesNotExistException } from "../../exceptions/fieldDoesNotExist.exception";
 import { TypeNotImplementedException } from "../../exceptions/typeNotImplemented.exception";
 
 export class MongoDbQueryBuilder {
     public rebuildQuery<T>(urlParams: object, exampleModel: T): object {
         const finalQuery: object[] = [];
-
         for (const queryKey of Object.keys(urlParams)) {
             try {
-                const type = exampleModel[queryKey].constructor.name;
                 const filter = {};
+                const type: string = this.getTypeForKey(exampleModel, queryKey);
                 switch (type) {
                     case "Number":
                         filter[queryKey] = parseFloat(urlParams[queryKey]);
@@ -35,5 +34,24 @@ export class MongoDbQueryBuilder {
         }
 
         return finalQuery.length === 0 ? { } : { $and: finalQuery };
+    }
+
+    private getTypeForKey<T>(model: T, path: string): string {
+        const keyDepth = path.split(".");
+        if (keyDepth.length === 1) {
+            return model[keyDepth[0]].constructor.name;
+        }
+        for (const key of keyDepth) {
+            if (key in model) {
+                const type = typeof model[key];
+                if (type === "object") {
+                    model = model[key];
+                    continue;
+                }
+                return model[key].constructor.name;
+            }
+        }
+
+        throw new Error("Something went wrong!");
     }
 }

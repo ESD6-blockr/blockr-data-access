@@ -2,6 +2,7 @@ import { Transaction, TransactionType } from "@blockr/blockr-models";
 import * as Mongo from "mongodb";
 import { IClient, MongoDB } from "../../clients";
 import { IClientConfiguration } from "../../configurations";
+import { EmptyModelException } from "../../exceptions/emptyModel.exception";
 import { ITransactionRepository } from "../../repositories";
 import { MongoDbQueryBuilder } from "./mongoDbQueryBuilder";
 
@@ -36,6 +37,10 @@ export class MongoTransactionRepository implements ITransactionRepository {
         try {
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
+
+            if (Object.keys(transaction).length === 0) {
+                throw new EmptyModelException("Transaction is empty");
+            }
 
             await collection.insertOne(transaction);
         } finally {

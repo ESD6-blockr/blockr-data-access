@@ -13,7 +13,7 @@ module.exports = {
     collectCoverageFrom: [
         "src/**/*.ts",
         "!src/**/index.ts",
-        "!src/main.ts",
+        "!src/dataAccessLayer.ts",
         "!src/injection/**/*",
         "!src/__tests__/**/*"
     ],

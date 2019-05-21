@@ -2,6 +2,7 @@ import { Block, BlockHeader } from "@blockr/blockr-models";
 import * as Mongo from "mongodb";
 import { IClient, MongoDB } from "../../clients";
 import { IClientConfiguration } from "../../configurations";
+import { EmptyModelException } from "../../exceptions/emptyModel.exception";
 import { IBlockchainRepository } from "../../repositories";
 import { MongoDbQueryBuilder } from "./mongoDbQueryBuilder";
 
@@ -22,7 +23,7 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
     public async getBlocksByQueryAsync(queries: object): Promise<Block[]> {
         try {
             const exampleBlock = this.getExampleBlock();
-            queries = this.mongoDbQueryBuilder.rebuildQuery<BlockHeader>(queries, exampleBlock.blockHeader);
+            queries = this.mongoDbQueryBuilder.rebuildQuery<Block>(queries, exampleBlock);
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
@@ -33,6 +34,12 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
     }
 
     public async addBlocksAsync(blocks: Block[]): Promise<void> {
+        for (const block of blocks) {
+            if (Object.keys(block).length === 0) {
+                throw new EmptyModelException("Block is empty");
+            }
+        }
+
         try {
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
@@ -44,6 +51,10 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
     }
 
     public async addBlockAsync(block: Block): Promise<void> {
+        if (Object.keys(block).length === 0) {
+            throw new EmptyModelException("Block is empty");
+        }
+
         try {
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
