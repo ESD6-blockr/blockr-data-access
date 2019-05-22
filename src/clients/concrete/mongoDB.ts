@@ -11,7 +11,7 @@ export class MongoDB implements IClient<Mongo.Db> {
     }
 
     public async connectAsync(): Promise<Mongo.Db> {
-        this.client = await Mongo.connect(this.configuration.connectionString);
+        this.client = await Mongo.connect(this.configuration.connectionString, {useNewUrlParser: true});
         return this.client.db(this.configuration.database);
     }
 

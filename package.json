@@ -1,6 +1,6 @@
 {
   "name": "@blockr/blockr-data-access",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "description": "Data access layer for Blockr",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
