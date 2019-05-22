@@ -1,5 +1,5 @@
 #!groovy
-@Library('blockr-jenkins-lib@fix/docker-nodejs-slave') _
+@Library('blockr-jenkins-lib') _
 
 String repo = 'blockr-data-access'
 
