@@ -27,7 +27,7 @@ export class DataAccessLayer {
         }
     }
 
-    public async getBlocksByQueryAsync(queries: object): Promise<Block[]> {
+    public async getBlocksByQueryAsync(queries?: object): Promise<Block[]> {
         return this.blockchainRepository.getBlocksByQueryAsync(queries);
     }
 
