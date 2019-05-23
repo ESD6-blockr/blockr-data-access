@@ -62,7 +62,7 @@ export class MongoStateRepository implements IStateRepository {
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
-            await collection.updateMany({ transactions }, transactions);
+            await collection.updateMany({ transactions }, { $set: transactions }, { upsert: true });
         } finally {
             await this.client.disconnectAsync();
         }
