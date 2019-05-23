@@ -61,11 +61,10 @@ export class MongoStateRepository implements IStateRepository {
         try {
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
-           
+   
             for (const state of states) {
                 await collection.updateOne({ publicKey: state.publicKey }, { $set: state }, { upsert: true });
             }
-            
         } finally {
             await this.client.disconnectAsync();
         }
