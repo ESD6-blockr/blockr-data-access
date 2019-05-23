@@ -1,5 +1,6 @@
 .scannerwork/
 .vscode/
+coverage/
 src/
 Jenkinsfile
 tsconfig.json
