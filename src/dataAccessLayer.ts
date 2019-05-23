@@ -51,8 +51,8 @@ export class DataAccessLayer {
         await this.stateRepository.setStatesAsync(states);
     }
 
-    public async updateStatesAsync(transactions: Transaction[]): Promise<void> {
-        await this.stateRepository.updateStatesAsync(transactions);
+    public async updateStatesAsync(states: State[]): Promise<void> {
+        await this.stateRepository.updateStatesAsync(states);
     }
 
     public async updateStateAsync(publicKey: string, state: State) {

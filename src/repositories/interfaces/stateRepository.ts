@@ -21,7 +21,7 @@ export interface IStateRepository {
      * Update multiple state transactions
      * @param transactions array of transactions
      */
-    updateStatesAsync(transactions: Transaction[]): Promise<void>;
+    updateStatesAsync(states: State[]): Promise<void>;
     /**
      * Update single state by publicKey
      * @param publicKey publicKey
