@@ -11,7 +11,7 @@ export interface IStateRepository {
      * @param publicKey publicKey
      * @returns {Promise<State>} state
      */
-    getStateAsync(publicKey: string): Promise<State>;
+    getStateAsync(publicKey: string): Promise<State | undefined>;
     /**
      * Set multiple states
      * @param states array of states 

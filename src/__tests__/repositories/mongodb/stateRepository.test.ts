@@ -44,33 +44,23 @@ describe("StateRepository", () => {
         const result = await stateRepository.getStateAsync(PUBLIC_KEY);
         
         expect(result).toBeInstanceOf(State);
-        expect(result.coin).toBe(state.coin);
-        expect(result.publicKey).toBe(state.publicKey);
-        expect(result.stake).toBe(state.stake);
+        expect((result as State).coin).toBe(state.coin);
+        expect((result as State).publicKey).toBe(state.publicKey);
+        expect((result as State).stake).toBe(state.stake);
     });
 
     it("Should fail to get state with an invalid key", async () => {
         const state = getState(PUBLIC_KEY);
         await stateRepository.setStatesAsync([state]);
-
-        try {
-            await stateRepository.getStateAsync(`${PUBLIC_KEY}-INVALID`);
-            fail();
-        } catch (error) {
-            expect(error.message).toContain("No state found for the following public key");
-        }
+       
+        const result = await stateRepository.getStateAsync(`${PUBLIC_KEY}-INVALID`);
+     
+        expect(result).toBeUndefined();
     });
-
+  
     it("Should get states", async () => {
         await stateRepository.setStatesAsync(getStates());
         const result = await stateRepository.getStatesAsync();
         expect(result.length).toBe(AMOUNT_OF_STATES);
-    });
-
-    it("Should get states", async () => {
-        const state: State = getState("PublicKeyForThisTest");
-        await stateRepository.setStatesAsync([state]);
-        const retrievedState: State = await stateRepository.getStateAsync(state.publicKey);
-        expect(retrievedState.publicKey).toBe(state.publicKey);
     });
 });
