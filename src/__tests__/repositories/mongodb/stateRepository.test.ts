@@ -57,7 +57,7 @@ describe("StateRepository", () => {
      
         expect(result).toBeUndefined();
     });
-
+  
     it("Should get states", async () => {
         await stateRepository.setStatesAsync(getStates());
         const result = await stateRepository.getStatesAsync();

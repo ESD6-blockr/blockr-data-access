@@ -2,6 +2,7 @@ import { State } from "@blockr/blockr-models";
 import * as Mongo from "mongodb";
 import { IClient, MongoDB } from "../../clients";
 import { IClientConfiguration } from "../../configurations";
+import { EntityNotFoundException } from "../../exceptions/entityNotFound.exception";
 import { IStateRepository } from "../../repositories";
 
 /**
