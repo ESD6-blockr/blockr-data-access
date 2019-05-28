@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import { MongoDBConfiguration } from "../../configurations";
 import { CONNECTION_STRING, DATABASE } from "../constants/mongoDBConfiguration.constants";
 
