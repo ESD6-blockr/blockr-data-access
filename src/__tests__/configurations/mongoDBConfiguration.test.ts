@@ -4,5 +4,6 @@ import { CONNECTION_STRING, DATABASE } from "../constants/mongoDBConfiguration.c
 describe("MongoDBConfiguraion", () => {
     it("Should instantsiate with valid parameters", () => {
         const config = new MongoDBConfiguration(CONNECTION_STRING, DATABASE);
+        expect(config).toBeInstanceOf(MongoDBConfiguration);
     });
 });
