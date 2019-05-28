@@ -43,7 +43,7 @@ export class DataAccessLayer {
         return this.stateRepository.getStatesAsync();
     }
 
-    public async getStateAsync(publicKey: string): Promise<State> {
+    public async getStateAsync(publicKey: string): Promise<State | undefined> {
         return this.stateRepository.getStateAsync(publicKey);
     }
 

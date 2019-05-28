@@ -2,7 +2,6 @@ import { State } from "@blockr/blockr-models";
 import * as Mongo from "mongodb";
 import { IClient, MongoDB } from "../../clients";
 import { IClientConfiguration } from "../../configurations";
-import { EntityNotFoundException } from "../../exceptions/entityNotFound.exception";
 import { IStateRepository } from "../../repositories";
 
 /**
@@ -28,19 +27,18 @@ export class MongoStateRepository implements IStateRepository {
         }
     }
 
-    public async getStateAsync(publicKey: string): Promise<State> {
+    public async getStateAsync(publicKey: string): Promise<State | undefined> {
         try {
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
-            const state: State | null = await collection.findOne<State>({ publicKey });
+            const state = await collection.findOne<State>({ publicKey });
 
-            if (state) {
-                // Create a new instance of the type State and copy the retrieved data to that instance
-                return Object.assign(new State("", 0, 0), state);
+            if (!state) {
+                return undefined;
             }
 
-            throw new EntityNotFoundException(`No state found for the following public key: ${publicKey}`);
+            return Object.assign(new State("", 0, 0), state);
         } finally {
             await this.client.disconnectAsync();
         }
