@@ -33,10 +33,11 @@ export class MongoStateRepository implements IStateRepository {
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
-            const state = await collection.findOne({ publicKey });
+            const state: State | null = await collection.findOne<State>({ publicKey });
 
             if (state) {
-                return state;
+                // Create a new instance of the type State and copy the retrieved data to that instance
+                return Object.assign(new State("", 0, 0), state);
             }
 
             throw new EntityNotFoundException(`No state found for the following public key: ${publicKey}`);
