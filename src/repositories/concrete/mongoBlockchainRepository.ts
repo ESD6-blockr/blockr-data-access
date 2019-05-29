@@ -29,7 +29,7 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
-            return await collection.find(queries).toArray();
+            return await collection.find<Block>(queries).toArray();
         } finally {
             await this.client.disconnectAsync();
         }

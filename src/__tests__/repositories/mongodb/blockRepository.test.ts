@@ -1,8 +1,9 @@
-import { Block } from "@blockr/blockr-models";
+import { Block, Transaction } from "@blockr/blockr-models";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { IClientConfiguration } from "../../..";
 import { MongoBlockchainRepository } from "../../../repositories";
 import { AMOUNT_OF_BLOCKS, getBlock, getBlocks } from "../../constants/blockRepository.constants";
+import { AMOUNT_OF_TRANSACTIONS, getTransactions } from "../../constants/transactionRepository.constants";
 
 jest.mock("@blockr/blockr-logger");
 
@@ -40,6 +41,23 @@ describe("BlockchainRepository", () => {
             } catch {
                 fail();
             }
+        });
+
+        it("Should succeed with a valid block containing transactions", async () => {
+            const blockNumber = 432;
+            const block = getBlock(blockNumber);
+            block.transactions = getTransactions();
+
+            await blockRepository.addBlockAsync(block);
+            
+            const query = {
+                "blockHeader.blockNumber": blockNumber,
+            };
+            const result = await blockRepository.getBlocksByQueryAsync(query);
+
+            expect(result[0].blockHeader.blockNumber).toBe(blockNumber);
+            expect(result[0].transactions).toBeInstanceOf(Array);
+            expect(result[0].transactions).toHaveLength(AMOUNT_OF_TRANSACTIONS);
         });
 
         it("Should fail with an invalid block", async () => {
