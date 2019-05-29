@@ -79,6 +79,6 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
     }
 
     private getExampleBlock() {
-        return new Block(new BlockHeader("validatorVersion", 1, new Date(), 1), new Set());
+        return new Block(new BlockHeader("validatorVersion", 1, new Date(), 1), []);
     }
 }

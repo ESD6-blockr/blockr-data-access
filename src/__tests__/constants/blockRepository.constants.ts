@@ -7,7 +7,7 @@ export const getBlock = (blockNumber?: number): Block => {
     const amount = Math.floor(Math.random() * 100) + 11;
 
     const blockHeader: BlockHeader = new BlockHeader("1", blockNumber, new Date(), amount);
-    return new Block(blockHeader, new Set());
+    return new Block(blockHeader, []);
 };
 
 export const getBlocks = (): Block[] => {
