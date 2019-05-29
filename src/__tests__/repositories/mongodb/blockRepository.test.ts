@@ -1,9 +1,9 @@
-import { Block, Transaction } from "@blockr/blockr-models";
+import { Block } from "@blockr/blockr-models";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { IClientConfiguration } from "../../..";
 import { MongoBlockchainRepository } from "../../../repositories";
-import { AMOUNT_OF_BLOCKS, getBlock, getBlocks } from "../../constants/blockRepository.constants";
-import { AMOUNT_OF_TRANSACTIONS, getTransactions } from "../../constants/transactionRepository.constants";
+import { AMOUNT_OF_BLOCKS, getBlock, getBlocks } from "../../constants";
+import { AMOUNT_OF_TRANSACTIONS, getTransactions } from "../../constants";
 
 jest.mock("@blockr/blockr-logger");
 

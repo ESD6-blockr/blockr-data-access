@@ -1,8 +1,8 @@
 import { State } from "@blockr/blockr-models";
 import * as Mongo from "mongodb";
+import { STATE_TABLE } from "..";
 import { IClient, MongoDB } from "../../clients";
 import { IClientConfiguration } from "../../configurations";
-import { EntityNotFoundException } from "../../exceptions/entityNotFound.exception";
 import { IStateRepository } from "../../repositories";
 
 /**
@@ -14,7 +14,7 @@ export class MongoStateRepository implements IStateRepository {
 
     constructor(configuration: IClientConfiguration) {
         this.client = new MongoDB(configuration);
-        this.tableName = "states";
+        this.tableName = STATE_TABLE;
     }
 
     public async getStatesAsync(): Promise<State[]> {
@@ -69,23 +69,23 @@ export class MongoStateRepository implements IStateRepository {
         }
     }
 
-    public async clearStatesAsync(): Promise<void> {
-        try {
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            await collection.deleteMany({});
-        } finally {
-            await this.client.disconnectAsync();
-        }
-    }
-
     public async updateStateAsync(publicKey: string, state: State): Promise<void> {
         try {
             const database = await this.client.connectAsync();
             const collection = database.collection(this.tableName);
 
             await collection.updateOne({publicKey}, { $set: state}, { upsert: true });
+        } finally {
+            await this.client.disconnectAsync();
+        }
+    }
+
+    public async pruneStatesAsync(): Promise<void> {
+        try {
+            const database = await this.client.connectAsync();
+            const collection = database.collection(this.tableName);
+
+            await collection.deleteMany({});
         } finally {
             await this.client.disconnectAsync();
         }

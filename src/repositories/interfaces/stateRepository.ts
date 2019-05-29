@@ -29,7 +29,7 @@ export interface IStateRepository {
      */
     updateStateAsync(publicKey: string, state: State): Promise<void>;
     /**
-     * Clear all states
+     * Prune states
      */
-    clearStatesAsync(): Promise<void>;
+    pruneStatesAsync(): Promise<void>;
 }

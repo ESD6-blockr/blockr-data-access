@@ -59,19 +59,15 @@ export class DataAccessLayer {
         await this.stateRepository.updateStateAsync(publicKey, state);
     }
 
-    public async clearStatesAsync(): Promise<void> {
-        await this.stateRepository.clearStatesAsync();
-    }
-
-    public async getTransactionsByQueryAsync(queries: object): Promise<Transaction[]> {
+    public async getTransactionsByQueryAsync(queries?: object): Promise<Transaction[]> {
         return this.transactionRepository.getTransactionsByQueryAsync(queries);
-    }
-
-    public async addTransactionAsync(transaction: Transaction): Promise<void> {
-        await this.transactionRepository.addTransactionAsync(transaction);
     }
 
     public async pruneBlockchainAsync(): Promise<void> {
         await this.blockchainRepository.pruneBlockchainAsync();
+    }
+
+    public async pruneStatesAsync(): Promise<void> {
+        await this.stateRepository.pruneStatesAsync();
     }
 }

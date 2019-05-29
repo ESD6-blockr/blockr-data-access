@@ -1,12 +1,14 @@
-import { Transaction } from "@blockr/blockr-models";
+import { Transaction, TransactionType } from "@blockr/blockr-models";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { IClientConfiguration } from "../../..";
-import { MongoTransactionRepository } from "../../../repositories";
-import * as TRC from "../../constants/transactionRepository.constants";
+import { MongoBlockchainRepository, MongoTransactionRepository } from "../../../repositories";
+import { AMOUNT_OF_BLOCKS, getBlock, getBlocks } from "../../constants";
+import { AMOUNT_OF_TRANSACTIONS, getTransactions } from "../../constants";
 
 jest.mock("@blockr/blockr-logger");
 
 let transactionRepository: MongoTransactionRepository;
+let blockChainRepository: MongoBlockchainRepository;
 let mongo: MongoMemoryServer;
 
 beforeEach(async () => {
@@ -19,6 +21,7 @@ beforeEach(async () => {
         database,
     };
     transactionRepository = new MongoTransactionRepository(configuration);
+    blockChainRepository = new MongoBlockchainRepository(configuration);
 });
 
 afterEach(async () => {
@@ -32,35 +35,37 @@ describe("TransactionRepository initialisation", () => {
 });
 
 describe("TransactionRepository", () => {
-    describe("Adding a transaction", () => {
-        it("Should succeed with a valid transaction", async () => {
-            try {
-                const result = await transactionRepository.addTransactionAsync(TRC.getTransaction());
-                expect(result).toBeUndefined();
-            } catch {
-                fail();
-            }
-        });
-
-        it("Should fail with an invalid transaction", async () => {
-            try {
-                await transactionRepository.addTransactionAsync({} as Transaction);
-                fail("Expected to throw an error because of an invalid Transaction");
-            } catch (error) {
-                expect(error.message).toContain("Transaction is empty");
-            }
-        });
-    });
-
     describe("Get transactions", () => {
         beforeEach(async () => {
-            for (const transaction of TRC.getTransactions()) {
-                await transactionRepository.addTransactionAsync(transaction);
+            const blocks = getBlocks();
+
+            for (const block of blocks) {
+                block.transactions = getTransactions();
             }
+
+            await blockChainRepository.addBlocksAsync(blocks);
         });
-        it("Should retrieve all existing transactions when passing an empty query object", async () => {
-             const result = await transactionRepository.getTransactionsByQueryAsync({});
-             expect(result.length).toBe(TRC.AMOUNT_OF_TRANSACTIONS);
+        
+        it("Should retrieve all existing transactions without a query", async () => {
+             const result = await transactionRepository.getTransactionsByQueryAsync();
+             
+             expect(result).toBeInstanceOf(Array);
+             expect(result).toHaveLength(AMOUNT_OF_TRANSACTIONS * AMOUNT_OF_BLOCKS);
+        });
+
+        it("Should retrieve the transactions with an query", async () => {
+            const block = getBlock();
+            block.transactions = [new Transaction(TransactionType.COIN, "key", "key", 1, new Date())];
+            
+            await blockChainRepository.addBlockAsync(block);
+
+            const query = {
+                "transactions.recipientKey": "key",
+            };
+            const result = await transactionRepository.getTransactionsByQueryAsync(query);
+            
+            expect(result).toBeInstanceOf(Array);
+            expect(result).toHaveLength(block.transactions.length);
         });
     });
 });

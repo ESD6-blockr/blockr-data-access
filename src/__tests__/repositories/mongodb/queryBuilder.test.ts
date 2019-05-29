@@ -1,4 +1,4 @@
-import { MongoDbQueryBuilder } from "../../../repositories/concrete/mongoDbQueryBuilder";
+import { MongoDbQueryBuilder } from "../../../repositories";
 
 jest.mock("@blockr/blockr-logger");
 

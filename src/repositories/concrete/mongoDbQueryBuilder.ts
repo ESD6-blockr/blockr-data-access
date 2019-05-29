@@ -1,5 +1,5 @@
-import { FieldDoesNotExistException } from "../../exceptions/fieldDoesNotExist.exception";
-import { TypeNotImplementedException } from "../../exceptions/typeNotImplemented.exception";
+import { FieldDoesNotExistException } from "../../exceptions";
+import { TypeNotImplementedException } from "../../exceptions";
 
 export class MongoDbQueryBuilder {
     public rebuildQuery<T>(urlParams: object, exampleModel: T): object {
