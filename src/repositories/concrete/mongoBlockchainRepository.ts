@@ -31,7 +31,7 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
 
             return await collection.find(queries).toArray();
         } finally {
-            this.client.disconnectAsync();
+            await this.client.disconnectAsync();
         }
     }
 
@@ -48,7 +48,7 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
 
             await collection.insertMany(blocks);
         } finally {
-            this.client.disconnectAsync();
+            await this.client.disconnectAsync();
         }
     }
 
@@ -63,7 +63,18 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
 
             await collection.insertOne(block);
         } finally {
-            this.client.disconnectAsync();
+            await this.client.disconnectAsync();
+        }
+    }
+
+    public async pruneBlockchainAsync(): Promise<void> {
+        try {
+            const database = await this.client.connectAsync();
+            const collection = await database.collection(this.tableName);
+
+            await collection.deleteMany({});
+        } finally {
+            await this.client.disconnectAsync();
         }
     }
 

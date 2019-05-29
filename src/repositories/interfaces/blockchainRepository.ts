@@ -16,4 +16,8 @@ export interface IBlockchainRepository {
      * @param block block
      */
     addBlockAsync(block: Block): Promise<void>;
+    /**
+     * Prune the blockchain
+     */
+    pruneBlockchainAsync(): Promise<void>;
 }
