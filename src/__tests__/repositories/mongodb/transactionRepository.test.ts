@@ -8,7 +8,7 @@ import { AMOUNT_OF_TRANSACTIONS, getTransactions } from "../../constants";
 jest.mock("@blockr/blockr-logger");
 
 let transactionRepository: MongoTransactionRepository;
-let blockChainRepository: MongoBlockchainRepository;
+let blockchainRepository: MongoBlockchainRepository;
 let mongo: MongoMemoryServer;
 
 beforeEach(async () => {
@@ -21,7 +21,7 @@ beforeEach(async () => {
         database,
     };
     transactionRepository = new MongoTransactionRepository(configuration);
-    blockChainRepository = new MongoBlockchainRepository(configuration);
+    blockchainRepository = new MongoBlockchainRepository(configuration);
 });
 
 afterEach(async () => {
@@ -43,7 +43,7 @@ describe("TransactionRepository", () => {
                 block.transactions = getTransactions();
             }
 
-            await blockChainRepository.addBlocksAsync(blocks);
+            await blockchainRepository.addBlocksAsync(blocks);
         });
         
         it("Should retrieve all existing transactions without a query", async () => {
@@ -57,7 +57,7 @@ describe("TransactionRepository", () => {
             const block = getBlock();
             block.transactions = [new Transaction(TransactionType.COIN, "key", "key", 1, new Date())];
             
-            await blockChainRepository.addBlockAsync(block);
+            await blockchainRepository.addBlockAsync(block);
 
             const query = {
                 "transactions.recipientKey": "key",
