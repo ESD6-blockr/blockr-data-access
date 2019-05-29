@@ -29,7 +29,7 @@ export class MongoTransactionRepository implements ITransactionRepository {
 
             return await collection.find(queries).toArray();
         } finally {
-            this.client.disconnectAsync();
+            await this.client.disconnectAsync();
         }
     }
 
@@ -44,7 +44,7 @@ export class MongoTransactionRepository implements ITransactionRepository {
 
             await collection.insertOne(transaction);
         } finally {
-            this.client.disconnectAsync();
+            await this.client.disconnectAsync();
         }
     }
 

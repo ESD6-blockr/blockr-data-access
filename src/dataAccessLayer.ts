@@ -70,4 +70,8 @@ export class DataAccessLayer {
     public async addTransactionAsync(transaction: Transaction): Promise<void> {
         await this.transactionRepository.addTransactionAsync(transaction);
     }
+
+    public async pruneBlockchainAsync(): Promise<void> {
+        await this.blockchainRepository.pruneBlockchainAsync();
+    }
 }

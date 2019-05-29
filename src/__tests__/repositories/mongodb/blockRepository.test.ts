@@ -78,6 +78,7 @@ describe("BlockchainRepository", () => {
         beforeEach(async () => {
             blockRepository.addBlocksAsync(getBlocks());
         });
+
         it("Should retrieve all existing transactions when passing an empty query object", async () => {
             const result = await blockRepository.getBlocksByQueryAsync({});
             expect(result.length).toBe(AMOUNT_OF_BLOCKS);
@@ -92,6 +93,21 @@ describe("BlockchainRepository", () => {
             };
             const result: Block[] = await blockRepository.getBlocksByQueryAsync(query);
             expect(result[0].blockHeader.blockNumber).toBe(blockNumber);
+        });
+    });
+
+    describe("Prune blockchain",  () => {
+        beforeEach(async () => {
+            blockRepository.addBlocksAsync(getBlocks());
+        });
+
+        it("Should succeed", async () => {
+            await blockRepository.pruneBlockchainAsync();
+
+            const result = await blockRepository.getBlocksByQueryAsync();
+
+            expect(result).toBeInstanceOf(Array);
+            expect(result).toHaveLength(0);
         });
     });
 });
