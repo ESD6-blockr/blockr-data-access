@@ -2,7 +2,7 @@ import { State } from "@blockr/blockr-models";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { IClientConfiguration } from "../../..";
 import { MongoStateRepository } from "../../../repositories";
-import { AMOUNT_OF_STATES, getState, getStates, PUBLIC_KEY } from "../../constants/stateRepository.constants";
+import { AMOUNT_OF_STATES, getState, getStates, PUBLIC_KEY } from "../../constants";
 
 jest.mock("@blockr/blockr-logger");
 

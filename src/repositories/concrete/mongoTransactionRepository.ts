@@ -1,8 +1,8 @@
-import { Transaction, TransactionType } from "@blockr/blockr-models";
+import { Block, Transaction, TransactionType } from "@blockr/blockr-models";
 import * as Mongo from "mongodb";
+import { BLOCK_TABLE } from "..";
 import { IClient, MongoDB } from "../../clients";
 import { IClientConfiguration } from "../../configurations";
-import { EmptyModelException } from "../../exceptions/emptyModel.exception";
 import { ITransactionRepository } from "../../repositories";
 import { MongoDbQueryBuilder } from "./mongoDbQueryBuilder";
 
@@ -17,32 +17,26 @@ export class MongoTransactionRepository implements ITransactionRepository {
     constructor(configuration: IClientConfiguration) {
         this.client = new MongoDB(configuration);
         this.mongoDbQueryBuilder = new MongoDbQueryBuilder();
-        this.tableName = "transactions";
+        this.tableName = BLOCK_TABLE;
     }
 
-    public async getTransactionsByQueryAsync(queries: object): Promise<Transaction[]> {
+    public async getTransactionsByQueryAsync(queries?: object): Promise<Transaction[]> {
         try {
-            const exampleTransaction = this.getExampleTransaction();
-            queries = this.mongoDbQueryBuilder.rebuildQuery<Transaction>(queries, exampleTransaction);
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            return await collection.find(queries).toArray();
-        } finally {
-            await this.client.disconnectAsync();
-        }
-    }
-
-    public async addTransactionAsync(transaction: Transaction): Promise<void> {
-        try {
-            const database = await this.client.connectAsync();
-            const collection = database.collection(this.tableName);
-
-            if (Object.keys(transaction).length === 0) {
-                throw new EmptyModelException("Transaction is empty");
+            if (queries) {
+                queries = this.mongoDbQueryBuilder.rebuildQuery<Transaction>(queries, this.getExampleTransaction());
             }
 
-            await collection.insertOne(transaction);
+            const database = await this.client.connectAsync();
+            const collection = database.collection(this.tableName);
+
+            const transactions: Transaction[] = [];
+            const result =  await collection.find(queries).toArray();
+
+            for (const block of result) {
+                transactions.push.apply(transactions, block.transactions);
+            }
+
+            return transactions;
         } finally {
             await this.client.disconnectAsync();
         }

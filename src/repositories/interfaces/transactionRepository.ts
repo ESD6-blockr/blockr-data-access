@@ -5,10 +5,5 @@ export interface ITransactionRepository {
      * Get all transactions by filter
      * @returns {Promise<Transaction[]>} array of transactions
      */
-    getTransactionsByQueryAsync(queries: object): Promise<Transaction[]>;
-    /**
-     * Add a single transaction to the blockchain
-     * @param transaction new transaction
-     */
-    addTransactionAsync(transaction: Transaction): Promise<void>;
+    getTransactionsByQueryAsync(queries?: object): Promise<Transaction[]>;
 }

@@ -1,8 +1,9 @@
 import { Block, BlockHeader } from "@blockr/blockr-models";
 import * as Mongo from "mongodb";
+import { BLOCK_TABLE } from "..";
 import { IClient, MongoDB } from "../../clients";
 import { IClientConfiguration } from "../../configurations";
-import { EmptyModelException } from "../../exceptions/emptyModel.exception";
+import { EmptyModelException } from "../../exceptions";
 import { IBlockchainRepository } from "../../repositories";
 import { MongoDbQueryBuilder } from "./mongoDbQueryBuilder";
 
@@ -17,7 +18,7 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
     constructor(configuration: IClientConfiguration) {
         this.client = new MongoDB(configuration);
         this.mongoDbQueryBuilder = new MongoDbQueryBuilder();
-        this.tableName = "blocks";
+        this.tableName = BLOCK_TABLE;
     }
 
     public async getBlocksByQueryAsync(queries?: object): Promise<Block[]> {
