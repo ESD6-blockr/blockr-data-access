@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@blockr/blockr-logger": "^1.3.0",
-    "@blockr/blockr-models": "^1.4.0-build.10",
+    "@blockr/blockr-models": "^1.4.0-build.11",
     "inversify": "^5.0.1",
     "mongodb": "^3.2.6",
     "reflect-metadata": "^0.1.13"
