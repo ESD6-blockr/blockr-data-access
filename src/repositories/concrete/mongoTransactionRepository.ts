@@ -1,4 +1,4 @@
-import { Block, Transaction, TransactionType } from "@blockr/blockr-models";
+import { Block, Transaction, TransactionHeader, TransactionType } from "@blockr/blockr-models";
 import * as Mongo from "mongodb";
 import { BLOCK_TABLE } from "..";
 import { IClient, MongoDB } from "../../clients";
@@ -43,7 +43,8 @@ export class MongoTransactionRepository implements ITransactionRepository {
     }
 
     private getExampleTransaction() {
-        const transaction = new Transaction(TransactionType.COIN, "1", "2", 1, new Date());
-        return transaction;
+        const transactionHeader: TransactionHeader =
+            new TransactionHeader("recipient", "sender", 1, new Date(), "1", "1");
+        return new Transaction(TransactionType.COIN, transactionHeader, "signature");
     }
 }

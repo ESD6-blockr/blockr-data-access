@@ -1,4 +1,4 @@
-import { Transaction, TransactionType } from "@blockr/blockr-models";
+import { BlockHeader, Transaction, TransactionHeader, TransactionType } from "@blockr/blockr-models";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { IClientConfiguration } from "../../..";
 import { MongoBlockchainRepository, MongoTransactionRepository } from "../../../repositories";
@@ -30,7 +30,7 @@ afterEach(async () => {
 
 describe("TransactionRepository initialisation", () => {
     it("Should succeed with a valid configuration", () => {
-        expect(transactionRepository).not.toBeUndefined();
+        expect(transactionRepository).toBeDefined();
     });
 });
 
@@ -55,12 +55,13 @@ describe("TransactionRepository", () => {
 
         it("Should retrieve the transactions with an query", async () => {
             const block = getBlock();
-            block.transactions = [new Transaction(TransactionType.COIN, "key", "key", 1, new Date())];
+            block.transactions = [new Transaction(TransactionType.COIN,
+                new TransactionHeader("key", "key", 1, new Date(), undefined, undefined), "signature")];
             
             await blockchainRepository.addBlockAsync(block);
 
             const query = {
-                "transactions.recipientKey": "key",
+                "transactions.transactionHeader.recipientKey": "key",
             };
             const result = await transactionRepository.getTransactionsByQueryAsync(query);
             

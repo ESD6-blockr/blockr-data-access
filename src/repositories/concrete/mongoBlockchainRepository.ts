@@ -1,4 +1,4 @@
-import { Block, BlockHeader } from "@blockr/blockr-models";
+import { Block, BlockHeader, BlockType } from "@blockr/blockr-models";
 import * as Mongo from "mongodb";
 import { BLOCK_TABLE } from "..";
 import { IClient, MongoDB } from "../../clients";
@@ -80,6 +80,6 @@ export class MongoBlockchainRepository implements IBlockchainRepository {
     }
 
     private getExampleBlock() {
-        return new Block(new BlockHeader("validatorVersion", 1, new Date(), 1), []);
+        return new Block(BlockType.REGULAR, new BlockHeader("validatorVersion", 1, new Date(), 1), []);
     }
 }

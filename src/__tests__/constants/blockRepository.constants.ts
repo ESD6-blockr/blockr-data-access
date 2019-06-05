@@ -1,4 +1,4 @@
-import { Block, BlockHeader } from "@blockr/blockr-models";
+import { Block, BlockHeader, BlockType } from "@blockr/blockr-models";
 
 export const AMOUNT_OF_BLOCKS: number = 5;
 
@@ -7,7 +7,7 @@ export const getBlock = (blockNumber?: number): Block => {
     const amount = Math.floor(Math.random() * 100) + 11;
 
     const blockHeader: BlockHeader = new BlockHeader("1", blockNumber, new Date(), amount);
-    return new Block(blockHeader, []);
+    return new Block(BlockType.REGULAR, blockHeader, []);
 };
 
 export const getBlocks = (): Block[] => {

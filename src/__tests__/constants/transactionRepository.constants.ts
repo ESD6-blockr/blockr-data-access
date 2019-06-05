@@ -1,10 +1,12 @@
-import { Transaction, TransactionType } from "@blockr/blockr-models";
+import { Transaction, TransactionHeader, TransactionType } from "@blockr/blockr-models";
 
 export const AMOUNT_OF_TRANSACTIONS: number = 5;
 
 export const getTransaction = (): Transaction => {
     const amount = Math.floor(Math.random() * 1000) + 1;
-    return new Transaction(TransactionType.COIN, "recipient", "sender", amount, new Date());
+    const transactionHeader: TransactionHeader =
+        new TransactionHeader("recipient", "sender", amount, new Date(), undefined, undefined);
+    return new Transaction(TransactionType.COIN, transactionHeader, "signature");
 };
 
 export const getTransactions = (): Transaction[] => {
