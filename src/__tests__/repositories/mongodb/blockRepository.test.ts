@@ -28,7 +28,7 @@ afterEach(async () => {
 
 describe("BlockchainRepository initialisation", () => {
     it("Should succeed with a valid configuration", () => {
-        expect(blockRepository).not.toBeUndefined();
+        expect(blockRepository).toBeDefined();
     });
 });
 

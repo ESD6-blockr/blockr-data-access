@@ -27,7 +27,7 @@ afterEach(async () => {
 
 describe("StateRepository initialisation", () => {
     it("Should succeed with a valid configuration", () => {
-        expect(stateRepository).not.toBeUndefined();
+        expect(stateRepository).toBeDefined();
     });
 });
 
@@ -44,7 +44,8 @@ describe("StateRepository", () => {
         const result = await stateRepository.getStateAsync(PUBLIC_KEY);
         
         expect(result).toBeInstanceOf(State);
-        expect((result as State).coin).toBe(state.coin);
+        
+        expect((result as State).amount).toBe(state.amount);
         expect((result as State).publicKey).toBe(state.publicKey);
         expect((result as State).stake).toBe(state.stake);
     });
